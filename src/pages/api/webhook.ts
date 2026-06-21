@@ -110,7 +110,10 @@ export const POST: APIRoute = async ({ request }) => {
               quantity: 1,
             }
           ],
-          iterations: remainingPayments,
+          duration: {
+            interval: 'month' as const,
+            interval_count: remainingPayments,
+          },
           proration_behavior: 'none' as const,
         };
 
