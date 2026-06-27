@@ -1,6 +1,8 @@
 ---
-import '@fontsource/merriweather';
-import '@fontsource/inter';
+import '@fontsource/merriweather/latin-400.css';
+import '@fontsource/merriweather/latin-ext-400.css';
+import '@fontsource/inter/latin-400.css';
+import '@fontsource/inter/latin-ext-400.css';
 import '../styles/global.css';
 
 import FloatingBar from '../components/FloatingBar.astro';
@@ -35,6 +37,11 @@ const isCheckout = pathname === '/checkout' || pathname === '/checkout/' || path
 		<link rel="preconnect" href="https://connect.facebook.net" />
 		<link rel="dns-prefetch" href="https://www.googletagmanager.com" />
 		<link rel="dns-prefetch" href="https://connect.facebook.net" />
+
+		<!-- Preload LCP Hero Image -->
+		<link rel="preload" href="/.netlify/images?url=_astro%2Fwedding-hero.ChW2o0Fy.webp&#38;fm=webp&#38;w=640&#38;h=427&#38;q=75" as="image" media="(max-width: 640px)" />
+		<link rel="preload" href="/.netlify/images?url=_astro%2Fwedding-hero.ChW2o0Fy.webp&#38;fm=webp&#38;w=1024&#38;h=683&#38;q=75" as="image" media="(min-width: 641px) and (max-width: 1024px)" />
+		<link rel="preload" href="/.netlify/images?url=_astro%2Fwedding-hero.ChW2o0Fy.webp&#38;fm=webp&#38;w=2070&#38;h=1380&#38;q=75" as="image" media="(min-width: 1025px)" />
 
 		<!-- Google Tag Manager (deferred to not block rendering) -->
 		<script is:inline>

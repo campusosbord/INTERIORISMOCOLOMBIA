@@ -1,0 +1,308 @@
+---
+import { Star, Quote, BadgeCheck, Users } from '@lucide/astro';
+
+const testimonials = [
+  {
+    name: "María Fernanda L.",
+    location: "Miami, FL 🇺🇸",
+    initials: "MF",
+    role: "Egresada 2025",
+    text: "Gracias al Máster del Instituto Osbord logré organizar mi primera boda de lujo en menos de 2 meses después de graduarme. La bolsa de empleo fue clave para conseguir mis primeros clientes. ¡Fue la mejor inversión de mi vida!",
+    rating: 5,
+    highlight: "Primera boda en 2 meses"
+  },
+  {
+    name: "Carolina P.",
+    location: "Houston, TX 🇺🇸",
+    initials: "CP",
+    role: "Egresada 2024",
+    text: "Yo empecé sin saber absolutamente nada de eventos y hoy tengo mi propia empresa de wedding planning. Los tutores me guiaron paso a paso. El módulo de Plan de Negocio fue lo que más me ayudó a despegar.",
+    rating: 5,
+    highlight: "Hoy tiene su propia empresa"
+  },
+  {
+    name: "Valentina R.",
+    location: "Los Angeles, CA 🇺🇸",
+    initials: "VR",
+    role: "Egresada 2025",
+    text: "Lo que más me gustó fue la flexibilidad de horarios. Yo trabajaba tiempo completo y pude estudiar en las noches. La certificación con aval americano me abrió puertas que nunca imaginé. Totalmente recomendado.",
+    rating: 5,
+    highlight: "Estudió mientras trabajaba"
+  },
+  {
+    name: "Andrea M.",
+    location: "New York, NY 🇺🇸",
+    initials: "AM",
+    role: "Egresada 2024",
+    text: "El contenido es súper completo. No solo aprendes de bodas sino de todo tipo de eventos corporativos. Eso me permitió diversificar mis servicios y duplicar mis ingresos en 6 meses. El networking con otros alumnos es increíble.",
+    rating: 5,
+    highlight: "Duplicó sus ingresos en 6 meses"
+  },
+  {
+    name: "Gabriela S.",
+    location: "Chicago, IL 🇺🇸",
+    initials: "GS",
+    role: "Egresada 2025",
+    text: "Tenía miedo de invertir en un curso online, pero la calidad del Máster superó todas mis expectativas. Los módulos de IA aplicada a eventos y el de Photoshop me dieron una ventaja competitiva enorme frente a otros planners.",
+    rating: 5,
+    highlight: "Ventaja competitiva con IA"
+  },
+  {
+    name: "Daniela C.",
+    location: "Dallas, TX 🇺🇸",
+    initials: "DC",
+    role: "Egresada 2024",
+    text: "La beca de inglés incluida fue un bonus increíble. Me sirvió muchísimo para atender clientas americanas que no hablan español. Hoy coordino bodas bilingües y cobro el doble que mi competencia local.",
+    rating: 5,
+    highlight: "Bodas bilingües premium"
+  }
+];
+---
+
+<section class="pt-14 pb-8 bg-white">
+  <div class="container mx-auto px-4 max-w-6xl">
+    
+    <!-- Section Header -->
+    <div class="text-center mb-16">
+      <div class="inline-flex items-center gap-2 bg-gold/10 px-5 py-2 rounded-full border border-gold/20 mb-6">
+        <Users class="w-4 h-4 text-gold" />
+        <span class="text-sm font-medium text-navy/80 tracking-wide">Historias Reales de Éxito</span>
+      </div>
+      
+      <h2 class="text-2xl md:text-4xl font-bold font-serif text-navy mb-4">
+        Ellas ya transformaron su vida.<br/>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-gold via-gold-dark to-gold">Tú puedes ser la siguiente.</span>
+      </h2>
+      
+      <p class="text-slate-600 max-w-xl mx-auto text-lg">
+        Profesionales reales que tomaron la decisión de formarse con nosotros y hoy viven de su pasión.
+      </p>
+    </div>
+
+    <!-- Social Proof Counter -->
+    <div class="flex flex-wrap justify-center gap-6 md:gap-10 mb-14">
+      <div class="text-center">
+        <p class="text-3xl md:text-4xl font-bold font-serif text-navy">+2,400</p>
+        <p class="text-xs text-slate-500 uppercase tracking-wider font-medium">Egresados</p>
+      </div>
+      <div class="w-px bg-slate-200 hidden md:block"></div>
+      <div class="text-center">
+        <p class="text-3xl md:text-4xl font-bold font-serif text-navy">4.9<span class="text-gold text-lg">★</span></p>
+        <p class="text-xs text-slate-500 uppercase tracking-wider font-medium">Calificación</p>
+      </div>
+      <div class="w-px bg-slate-200 hidden md:block"></div>
+      <div class="text-center">
+        <p class="text-3xl md:text-4xl font-bold font-serif text-navy">15+</p>
+        <p class="text-xs text-slate-500 uppercase tracking-wider font-medium">Países</p>
+      </div>
+    </div>
+
+    <!-- Testimonials Carousel -->
+    <div 
+      x-data="testimonialCarousel()"
+      x-init="startAutoplay()"
+      class="relative"
+    >
+      <!-- Desktop: Grid with fixed height container to avoid layout shift -->
+      <div class="hidden md:grid md:grid-cols-3 gap-6 relative min-h-[340px]">
+        
+        {/* Set 1: Egresadas 1, 2, 3 */}
+        <div 
+          class="col-span-3 grid grid-cols-3 gap-6 transition-all duration-500 absolute inset-0"
+          x-show="currentSet === 0"
+          x-transition:enter="transition ease-out duration-500"
+          x-transition:enter-start="opacity-0 translate-y-2"
+          x-transition:enter-end="opacity-100 translate-y-0"
+          x-transition:leave="transition ease-in duration-300"
+          x-transition:leave-start="opacity-100 translate-y-0"
+          x-transition:leave-end="opacity-0 -translate-y-2"
+        >
+          {testimonials.slice(0, 3).map((t) => (
+            <div class="testimonial-card group bg-slate-50 rounded-2xl p-6 border border-slate-100 hover:border-gold/30 hover:shadow-lg hover:shadow-gold/5 transition-all duration-300 relative overflow-hidden flex flex-col h-full justify-between">
+              <div>
+                <div class="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-gold/40 via-gold to-gold/40"></div>
+                <div class="absolute top-4 right-4 opacity-[0.04]"><Quote class="w-14 h-14 text-navy" /></div>
+                <div class="flex gap-0.5 mb-4">
+                  {Array.from({ length: t.rating }).map(() => (
+                    <Star class="w-3.5 h-3.5 text-gold fill-gold" />
+                  ))}
+                </div>
+                <p class="text-slate-600 text-sm leading-relaxed mb-6 relative z-10 italic">"{t.text}"</p>
+              </div>
+              <div>
+                <div class="mb-4">
+                  <span class="inline-block text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-navy text-gold-light">✓ {t.highlight}</span>
+                </div>
+                <div class="flex items-center gap-3 pt-4 border-t border-slate-200/60">
+                  <div class="w-10 h-10 rounded-full bg-navy flex items-center justify-center text-gold font-bold text-sm shrink-0">{t.initials}</div>
+                  <div>
+                    <div class="flex items-center gap-1.5">
+                      <p class="font-bold text-navy text-sm">{t.name}</p>
+                      <BadgeCheck class="w-3.5 h-3.5 text-emerald" />
+                    </div>
+                    <p class="text-[11px] text-slate-400">{t.location} · {t.role}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Set 2: Egresadas 4, 5, 6 */}
+        <div 
+          class="col-span-3 grid grid-cols-3 gap-6 transition-all duration-500 absolute inset-0"
+          x-show="currentSet === 1"
+          x-transition:enter="transition ease-out duration-500"
+          x-transition:enter-start="opacity-0 translate-y-2"
+          x-transition:enter-end="opacity-100 translate-y-0"
+          x-transition:leave="transition ease-in duration-300"
+          x-transition:leave-start="opacity-100 translate-y-0"
+          x-transition:leave-end="opacity-0 -translate-y-2"
+          style="display: none;"
+        >
+          {testimonials.slice(3, 6).map((t) => (
+            <div class="testimonial-card group bg-slate-50 rounded-2xl p-6 border border-slate-100 hover:border-gold/30 hover:shadow-lg hover:shadow-gold/5 transition-all duration-300 relative overflow-hidden flex flex-col h-full justify-between">
+              <div>
+                <div class="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-gold/40 via-gold to-gold/40"></div>
+                <div class="absolute top-4 right-4 opacity-[0.04]"><Quote class="w-14 h-14 text-navy" /></div>
+                <div class="flex gap-0.5 mb-4">
+                  {Array.from({ length: t.rating }).map(() => (
+                    <Star class="w-3.5 h-3.5 text-gold fill-gold" />
+                  ))}
+                </div>
+                <p class="text-slate-600 text-sm leading-relaxed mb-6 relative z-10 italic">"{t.text}"</p>
+              </div>
+              <div>
+                <div class="mb-4">
+                  <span class="inline-block text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-navy text-gold-light">✓ {t.highlight}</span>
+                </div>
+                <div class="flex items-center gap-3 pt-4 border-t border-slate-200/60">
+                  <div class="w-10 h-10 rounded-full bg-navy flex items-center justify-center text-gold font-bold text-sm shrink-0">{t.initials}</div>
+                  <div>
+                    <div class="flex items-center gap-1.5">
+                      <p class="font-bold text-navy text-sm">{t.name}</p>
+                      <BadgeCheck class="w-3.5 h-3.5 text-emerald" />
+                    </div>
+                    <p class="text-[11px] text-slate-400">{t.location} · {t.role}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+      </div>
+
+      <!-- Mobile: Carousel single container with fixed positioning logic -->
+      <div class="md:hidden relative min-h-[300px]">
+        {testimonials.map((t, i) => (
+          <div 
+            class="testimonial-card bg-slate-50 rounded-2xl p-6 border border-slate-100 relative overflow-hidden absolute inset-0 flex flex-col justify-between"
+            x-show={`currentMobile === ${i}`}
+            x-transition:enter="transition ease-out duration-400"
+            x-transition:enter-start="opacity-0 translate-x-4"
+            x-transition:enter-end="opacity-100 translate-x-0"
+            x-transition:leave="transition ease-in duration-300"
+            x-transition:leave-start="opacity-100 translate-x-0"
+            x-transition:leave-end="opacity-0 -translate-x-4"
+            style={i > 0 ? "display: none;" : ""}
+          >
+            <div>
+              <div class="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-gold/40 via-gold to-gold/40"></div>
+              <div class="absolute top-4 right-4 opacity-[0.04]"><Quote class="w-12 h-12 text-navy" /></div>
+              <div class="flex gap-0.5 mb-3">
+                {Array.from({ length: t.rating }).map(() => (
+                  <Star class="w-3.5 h-3.5 text-gold fill-gold" />
+                ))}
+              </div>
+              <p class="text-slate-600 text-sm leading-relaxed mb-4 relative z-10 italic">"{t.text}"</p>
+            </div>
+            <div>
+              <div class="mb-4">
+                <span class="inline-block text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-navy text-gold-light">✓ {t.highlight}</span>
+              </div>
+              <div class="flex items-center gap-3 pt-4 border-t border-slate-200/60">
+                <div class="w-10 h-10 rounded-full bg-navy flex items-center justify-center text-gold font-bold text-sm shrink-0">{t.initials}</div>
+                <div>
+                  <div class="flex items-center gap-1.5">
+                    <p class="font-bold text-navy text-sm">{t.name}</p>
+                    <BadgeCheck class="w-3.5 h-3.5 text-emerald" />
+                  </div>
+                  <p class="text-[11px] text-slate-400">{t.location} · {t.role}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Navigation Dots -->
+      <div class="flex justify-center gap-2 mt-8">
+        <!-- Desktop dots (2 sets) -->
+        <template x-for="i in 2">
+          <button 
+            @click="goToSet(i - 1)"
+            class="hidden md:block w-2.5 h-2.5 rounded-full transition-all duration-300"
+            :class="currentSet === (i - 1) ? 'bg-gold w-8' : 'bg-slate-300 hover:bg-slate-400'"
+            :aria-label="`Ver testimonios grupo ${i}`"
+          ></button>
+        </template>
+        <!-- Mobile dots (6 individual) -->
+        <template x-for="i in 6">
+          <button 
+            @click="goToMobile(i - 1)"
+            class="md:hidden w-2 h-2 rounded-full transition-all duration-300"
+            :class="currentMobile === (i - 1) ? 'bg-gold w-6' : 'bg-slate-300 hover:bg-slate-400'"
+            :aria-label="`Ver testimonio ${i}`"
+          ></button>
+        </template>
+      </div>
+    </div>
+
+    <!-- CTA after testimonials -->
+    <div class="mt-14 text-center">
+      <a 
+        href="/checkout" 
+        onclick="trackInitiateCheckout()"
+        class="inline-flex items-center gap-2 bg-navy hover:bg-navy-light text-white font-bold py-3.5 px-8 md:py-4 md:px-10 rounded-xl shadow-lg hover:shadow-xl transition-all text-sm md:text-base"
+      >
+        ¡Quiero ser la próxima historia de éxito!
+      </a>
+      <p class="text-xs text-slate-400 mt-3">Únete a +2,400 egresados exitosos</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('alpine:init', () => {
+    Alpine.data('testimonialCarousel', () => ({
+      currentSet: 0,
+      currentMobile: 0,
+      interval: null,
+
+      startAutoplay() {
+        this.interval = setInterval(() => {
+          // Desktop
+          this.currentSet = this.currentSet === 0 ? 1 : 0;
+          // Mobile
+          this.currentMobile = (this.currentMobile + 1) % 6;
+        }, 7000);
+      },
+
+      goToSet(index: number) {
+        this.currentSet = index;
+        this.resetAutoplay();
+      },
+
+      goToMobile(index: number) {
+        this.currentMobile = index;
+        this.resetAutoplay();
+      },
+
+      resetAutoplay() {
+        clearInterval(this.interval);
+        this.startAutoplay();
+      }
+    }));
+  });
+</script>
