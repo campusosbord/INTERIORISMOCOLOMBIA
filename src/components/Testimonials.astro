@@ -59,7 +59,7 @@ const testimonials = [
 ];
 ---
 
-<section class="pt-14 pb-8 bg-white">
+<section class="pt-14 pb-8 relative overflow-hidden" style="background: linear-gradient(to bottom, #e6e6e6, #f8fafc);">
   <div class="container mx-auto px-4 max-w-6xl">
     
     <!-- Section Header -->
@@ -118,7 +118,7 @@ const testimonials = [
           x-transition:leave-end="opacity-0 -translate-y-2"
         >
           {testimonials.slice(0, 3).map((t) => (
-            <div class="testimonial-card group bg-slate-50 rounded-2xl p-6 border border-slate-100 hover:border-gold/30 hover:shadow-lg hover:shadow-gold/5 transition-all duration-300 relative overflow-hidden flex flex-col h-full justify-between">
+            <div class="testimonial-card group bg-white rounded-2xl p-6 border border-slate-100 hover:border-gold/30 hover:shadow-lg hover:shadow-gold/5 transition-all duration-300 relative overflow-hidden flex flex-col h-full justify-between">
               <div>
                 <div class="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-gold/40 via-gold to-gold/40"></div>
                 <div class="absolute top-4 right-4 opacity-[0.04]"><Quote class="w-14 h-14 text-navy" /></div>
@@ -161,7 +161,7 @@ const testimonials = [
           style="display: none;"
         >
           {testimonials.slice(3, 6).map((t) => (
-            <div class="testimonial-card group bg-slate-50 rounded-2xl p-6 border border-slate-100 hover:border-gold/30 hover:shadow-lg hover:shadow-gold/5 transition-all duration-300 relative overflow-hidden flex flex-col h-full justify-between">
+            <div class="testimonial-card group bg-white rounded-2xl p-6 border border-slate-100 hover:border-gold/30 hover:shadow-lg hover:shadow-gold/5 transition-all duration-300 relative overflow-hidden flex flex-col h-full justify-between">
               <div>
                 <div class="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-gold/40 via-gold to-gold/40"></div>
                 <div class="absolute top-4 right-4 opacity-[0.04]"><Quote class="w-14 h-14 text-navy" /></div>
@@ -197,7 +197,7 @@ const testimonials = [
       <div class="md:hidden relative min-h-[300px]">
         {testimonials.map((t, i) => (
           <div 
-            class="testimonial-card bg-slate-50 rounded-2xl p-6 border border-slate-100 relative overflow-hidden absolute inset-0 flex flex-col justify-between"
+            class="testimonial-card bg-white rounded-2xl p-6 border border-slate-100 relative overflow-hidden absolute inset-0 flex flex-col justify-between"
             x-show={`currentMobile === ${i}`}
             x-transition:enter="transition ease-out duration-400"
             x-transition:enter-start="opacity-0 translate-x-4"
