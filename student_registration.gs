@@ -27,6 +27,17 @@ const RUTAS = {
     valorDefecto: 297.00,
     metaEvento: "Purchase"
   },
+  "weddingcol": { 
+    hoja: "weddingcol",
+    prepararFila: (data, fecha) => [data.nombre || "", data.telefono || "", data.email || "", fecha],
+    enviarMeta: true,
+    pixel: LLC_PIXEL_ID,
+    token: LLC_ACCESS_TOKEN,
+    metaNombre: "Master Wedding Planner Colombia",
+    metaCategoria: "Formacion Ejecutiva",
+    valorDefecto: 147.00,
+    metaEvento: "Purchase"
+  },
   "enfermeria": { 
     hoja: "datausaenfermeria",
     prepararFila: (data, fecha) => [data.nombre || "", data.telefono || "", data.email || "", fecha],
