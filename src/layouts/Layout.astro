@@ -14,7 +14,7 @@ interface Props {
 
 const { title, description = "Curso Ejecutivo en Organización de Eventos & Wedding Planner - Instituto Osbord" } = Astro.props;
 const pathname = new URL(Astro.request.url).pathname;
-const isCheckout = pathname === '/checkout' || pathname === '/checkout/' || pathname === '/registro' || pathname === '/registro/'; // Normalize check
+const isCheckout = pathname === '/checkout' || pathname === '/checkout/' || pathname === '/registro' || pathname === '/registro/' || pathname === '/formulario' || pathname === '/formulario/'; // Normalize check
 ---
 
 <!doctype html>

@@ -4,14 +4,15 @@ export const prerender = true;
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
+import VideoSection from '../components/VideoSection.astro';
+import EventSuite from '../components/EventSuite.astro';
+import OfferSection from '../components/OfferSection.astro';
 import Benefits from '../components/Benefits.astro';
 import Syllabus from '../components/Syllabus.astro';
 import Authority from '../components/Authority.astro';
 import Testimonials from '../components/Testimonials.astro';
-import UrgencyCTA from '../components/UrgencyCTA.astro';
 import FAQ from '../components/FAQ.astro';
-import Checkout from '../components/Checkout.astro';
-import EventSuite from '../components/EventSuite.astro';
+import UrgencyCTA from '../components/UrgencyCTA.astro';
 import Footer from '../components/Footer.astro';
 ---
 
@@ -19,9 +20,11 @@ import Footer from '../components/Footer.astro';
 	<Header />
 	<main>
 		<Hero />
+		<VideoSection />
+		<EventSuite />
+		<OfferSection />
 		<Benefits />
 		<Syllabus />
-		<EventSuite />
 		<Authority />
 		<Testimonials />
 		<FAQ />

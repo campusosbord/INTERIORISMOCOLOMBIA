@@ -1,0 +1,46 @@
+---
+import { ArrowDown } from '@lucide/astro';
+---
+
+<section class="py-12 bg-navy text-white relative">
+  <div class="container mx-auto px-4 max-w-5xl">
+    <!-- Sales Pitch Video Container -->
+    <div class="relative w-full max-w-[900px] mx-auto rounded-2xl overflow-hidden shadow-2xl shadow-black/60 bg-[#1a1a1a] border border-white/10">
+      
+      <!-- Video Header -->
+      <div class="px-6 py-4 bg-navy-light/80 backdrop-blur border-b border-white/10 flex items-center justify-between">
+        <span class="font-serif font-bold text-sm md:text-lg tracking-wide text-white">Clase de Organización de Eventos y Pitch de Venta</span>
+        <div class="flex gap-1.5">
+          <span class="w-3 h-3 bg-red-500 rounded-full"></span>
+          <span class="w-3 h-3 bg-yellow-500 rounded-full"></span>
+          <span class="w-3 h-3 bg-green-500 rounded-full"></span>
+        </div>
+      </div>
+
+      <!-- HTML5 Video Player -->
+      <video 
+        class="w-full h-auto display: block;" 
+        controls="controls" 
+        controlslist="nodownload" 
+        oncontextmenu="return false;"
+      >
+        <source src="https://pub-397cf5ade9274ec1ae5c78c463b0a44d.r2.dev/WP%20-%20MOD%201_1080p.mp4" type="video/mp4">
+        Tu navegador no soporta la reproducción de videos.
+      </video>
+    </div>
+
+    <!-- Scroll to Pricing CTA Button -->
+    <div class="mt-10 text-center">
+      <button 
+        onclick="document.getElementById('oferta').scrollIntoView({ behavior: 'smooth' })"
+        class="group relative inline-flex items-center gap-3 bg-gradient-to-r from-gold to-gold-dark text-navy font-bold text-sm md:text-base px-8 py-4 rounded-xl shadow-xl shadow-gold/20 hover:shadow-2xl hover:shadow-gold/45 transition-all duration-300 transform hover:scale-[1.03] active:scale-[0.97]"
+      >
+        <span class="uppercase tracking-wide">Ver Planes y Ofertas Especiales</span>
+        <ArrowDown class="w-4.5 h-4.5 group-hover:translate-y-1 transition-transform" />
+        
+        <!-- Subtle pulsing border effect -->
+        <span class="absolute -inset-[3px] border border-gold/40 rounded-xl animate-pulse -z-10 group-hover:border-gold/60 transition-colors"></span>
+      </button>
+    </div>
+  </div>
+</section>
