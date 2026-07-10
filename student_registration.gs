@@ -49,6 +49,28 @@ const RUTAS = {
     valorDefecto: 0.00,
     metaEvento: "Lead"
   },
+  "intcol": { 
+    hoja: "intcol",
+    prepararFila: (data, fecha) => [data.nombre || "", data.telefono || "", data.email || "", fecha],
+    enviarMeta: true,
+    pixel: LLC_PIXEL_ID,
+    token: LLC_ACCESS_TOKEN,
+    metaNombre: "Master Interiorismo Colombia",
+    metaCategoria: "Formacion Ejecutiva",
+    valorDefecto: 147.00,
+    metaEvento: "Purchase"
+  },
+  "intcol_lead": { 
+    hoja: "grupo_intcol",
+    prepararFila: (data, fecha) => [data.nombre || "", data.telefono || "", fecha],
+    enviarMeta: true,
+    pixel: LLC_PIXEL_ID,
+    token: LLC_ACCESS_TOKEN,
+    metaNombre: "Lead Master Interiorismo Colombia",
+    metaCategoria: "Lead",
+    valorDefecto: 0.00,
+    metaEvento: "Lead"
+  },
   "enfermeria": { 
     hoja: "datausaenfermeria",
     prepararFila: (data, fecha) => [data.nombre || "", data.telefono || "", data.email || "", fecha],

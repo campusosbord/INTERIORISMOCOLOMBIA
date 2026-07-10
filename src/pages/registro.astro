@@ -26,7 +26,7 @@ import { CheckCircle, ShieldCheck, User, Mail, FileText, Phone } from '@lucide/a
             </div>
             <h2 class="text-2xl md:text-3xl font-bold font-serif">¡Pago Realizado!</h2>
             <p class="text-slate-300 text-sm max-w-md mx-auto">
-              Tu matrícula para el Curso Ejecutivo en Organización de Eventos & Wedding Planner ha sido procesada con éxito.
+              Tu matrícula para el Máster en Interiorismo, Diseño y Decoración de Interiores 3D ha sido procesada con éxito.
             </p>
           </div>
         </div>
@@ -68,12 +68,16 @@ import { CheckCircle, ShieldCheck, User, Mail, FileText, Phone } from '@lucide/a
                 if (planParam === 'finance1') planName = 'Financiamiento de 2 Cuotas ($79 USD)';
                 if (planParam === 'finance2') planName = 'Financiamiento de 3 Cuotas ($55 USD)';
                 
-                // Enviar datos a Google Sheets (Ruta: weddingcol)
+                // Usar el event_id global generado al cargar la página (misma variable que usa el Pixel)
+                const eventId = window.purchaseEventId;
+
+                // Enviar datos a Google Sheets (Ruta: intcol)
                 const payload = JSON.stringify({
                   nombre: this.nombre.trim(),
                   telefono: this.telefono.trim(),
                   email: this.email.trim(),
-                  origen: 'weddingcol',
+                  origen: 'intcol',
+                  event_id: eventId,
                   page_url: window.location.href,
                   user_agent: navigator.userAgent
                 });
@@ -93,7 +97,7 @@ import { CheckCircle, ShieldCheck, User, Mail, FileText, Phone } from '@lucide/a
                   console.error('[Google Sheets] Error al registrar datos:', e);
                 }
                 
-                const message = `Hola, acabo de realizar mi pago para el *CURSO EJECUTIVO EN ORGANIZACIÓN DE EVENTOS & WEDDING PLANNER PARA COLOMBIA* y quiero completar mi registro.\n\n` +
+                const message = `Hola, acabo de realizar mi pago para el *MÁSTER EN INTERIORISMO Y DISEÑO 3D PARA COLOMBIA* y quiero completar mi registro.\n\n` +
                                 `*DATOS DEL ESTUDIANTE:*\n` +
                                 `• *Nombre completo:* ${this.nombre.trim()}\n` +
                                 `• *Correo electrónico:* ${this.email.trim()}\n` +
@@ -207,13 +211,25 @@ import { CheckCircle, ShieldCheck, User, Mail, FileText, Phone } from '@lucide/a
 
   <Footer />
 
+  <!-- Client-side Conversion Tracking: genera el event_id globalmente al instante de carga -->
+  <script is:inline>
+    // Ejecutar INMEDIATAMENTE (antes de DOMContentLoaded) para que Alpine y el Pixel compartan el mismo ID
+    (function() {
+      const params = new URLSearchParams(window.location.search);
+      const sessionId = params.get('session_id');
+      // Si viene session_id de Stripe lo usamos; si no, generamos un ID propio
+      window.purchaseEventId = 'purchase_' + (sessionId || (Date.now() + '_' + Math.random().toString(36).slice(2, 8)));
+      // Exponer sessionId globalmente para que el script de tracking posterior lo reutilice
+      window.stripeSessionId = sessionId;
+    })();
+  </script>
+
   <!-- Client-side Conversion Tracking Script -->
   <script is:inline>
     document.addEventListener('DOMContentLoaded', () => {
       // 1. Parse URL parameters to fetch plan type and session ID
-      const params = new URLSearchParams(window.location.search);
-      const plan = params.get('plan');
-      const sessionId = params.get('session_id');
+      const plan = new URLSearchParams(window.location.search).get('plan');
+      const sessionId = window.stripeSessionId; // Reutilizar el que ya parsimos globalmente
 
       if (plan && sessionId) {
         // 2. Map plan identifier to transaction price
@@ -234,17 +250,18 @@ import { CheckCircle, ShieldCheck, User, Mail, FileText, Phone } from '@lucide/a
           return;
         }
 
-        // 4. Report Meta Pixel Purchase Event
+        // 4. Report Meta Pixel Purchase Event — mismo event_id que se enviará por CAPI
+        const eventId = window.purchaseEventId; // Generado globalmente al cargar la página
         if (window.fbq) {
           fbq('track', 'Purchase', {
             value: value,
             currency: 'USD',
-            content_name: 'Inscripción Curso Wedding Planner',
+            content_name: 'Inscripción Máster en Interiorismo',
             content_category: 'Educación',
             content_ids: [plan],
             content_type: 'product'
-          });
-          console.log('[Tracking] Éxito: Compra reportada a Meta Pixel:', { value, plan });
+          }, { eventID: eventId });
+          console.log('[Tracking] Éxito: Compra reportada a Meta Pixel con eventID:', eventId);
         } else {
           console.warn('[Tracking] Advertencia: fbq no está inicializado.');
         }
@@ -256,8 +273,8 @@ import { CheckCircle, ShieldCheck, User, Mail, FileText, Phone } from '@lucide/a
             value: value,
             currency: 'USD',
             items: [{
-              item_id: `wedding_planner_${plan}`,
-              item_name: `Inscripción Curso Wedding Planner (${planFriendlyName})`,
+              item_id: `interiorismo_${plan}`,
+              item_name: `Inscripción Máster en Interiorismo (${planFriendlyName})`,
               price: value,
               quantity: 1,
               item_category: 'Educación'

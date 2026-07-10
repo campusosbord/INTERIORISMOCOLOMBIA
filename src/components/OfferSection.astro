@@ -149,7 +149,7 @@ import { Timer, Clock, ShieldCheck } from '@lucide/astro';
         totalSeconds: 48 * 3600,
         
         initTimer() {
-          const storedTime = localStorage.getItem('osbord_wedding_timer');
+          const storedTime = localStorage.getItem('osbord_interiorismo_colombia_timer');
           const now = new Date().getTime();
           
           if (storedTime) {
@@ -180,7 +180,7 @@ import { Timer, Clock, ShieldCheck } from '@lucide/astro';
         resetTimer() {
           const now = new Date().getTime();
           const expiry = now + (48 * 3600 * 1000);
-          localStorage.setItem('osbord_wedding_timer', JSON.stringify({ expiry }));
+          localStorage.setItem('osbord_interiorismo_colombia_timer', JSON.stringify({ expiry }));
           this.totalSeconds = 48 * 3600;
         },
 

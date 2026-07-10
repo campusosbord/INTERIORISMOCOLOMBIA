@@ -2,89 +2,115 @@
 import { Sparkles, ArrowRight, CheckCircle, Clock } from '@lucide/astro';
 ---
 
-<section class="relative py-24 overflow-hidden" style="background: linear-gradient(to bottom, #e6e6e6, #f8fafc);">
-  <!-- Decorative Elements -->
-  <div class="absolute top-0 left-0 w-72 h-72 bg-gold/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
-  <div class="absolute bottom-0 right-0 w-96 h-96 bg-navy/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
+<section class="relative py-24 overflow-hidden bg-slate-50">
+  <!-- Architectural Grid Background -->
+  <div class="absolute inset-0 z-0 opacity-[0.03]" style="background-image: radial-gradient(#1e293b 1px, transparent 1px); background-size: 30px 30px;"></div>
+  <div class="absolute inset-0 z-0 opacity-[0.02]" style="background-image: linear-gradient(#1e293b 1px, transparent 1px), linear-gradient(90deg, #1e293b 1px, transparent 1px); background-size: 150px 150px;"></div>
   
   <div class="container mx-auto px-4 relative z-10 max-w-4xl">
     
-    <!-- Elegant Card Frame -->
-    <div class="relative bg-white rounded-3xl shadow-2xl shadow-slate-300/50 border border-slate-200 p-10 md:p-14 overflow-hidden">
+    <!-- Premium Architectural Card -->
+    <div class="relative bg-white rounded-3xl shadow-[0_32px_64px_-16px_rgba(30,41,59,0.15)] border border-slate-200 p-10 md:p-14 overflow-hidden group/card">
       
-      <!-- Urgency Badge - Top Right Corner (Elegant Gold) -->
-      <div class="absolute top-4 right-4 bg-gradient-to-r from-gold to-gold-dark text-white px-4 py-2 rounded-full shadow-lg flex items-center gap-2">
-        <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span>
-        <span class="text-sm font-semibold">Pocos Cupos Disponibles</span>
+      <!-- Luxury Background Image with Transparency -->
+      <div class="absolute inset-0 z-0">
+        <img 
+          src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
+          alt="Luxury Interior Background" 
+          class="w-full h-full object-cover opacity-[0.17] grayscale group-hover/card:scale-110 transition-transform duration-[2000ms]"
+        />
+        <div class="absolute inset-0 bg-gradient-to-b from-white/90 via-transparent to-white/90"></div>
+      </div>
+
+      <!-- Premium Badge -->
+      <div class="absolute top-0 right-0 p-1">
+        <div class="bg-navy text-white px-6 py-2 rounded-bl-3xl rounded-tr-2xl shadow-lg flex items-center gap-2">
+          <span class="w-1.5 h-1.5 bg-gold rounded-full animate-pulse"></span>
+          <span class="text-[10px] md:text-xs font-bold uppercase tracking-[0.15em]">Cupos Directivos</span>
+        </div>
       </div>
       
-      <!-- Gold Corner Accent -->
-      <div class="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-gold/20 to-transparent rounded-br-full"></div>
-      <div class="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-navy/10 to-transparent rounded-tr-full"></div>
-      
-      <!-- Inner Border Detail -->
-      <div class="absolute inset-4 border border-slate-100 rounded-2xl pointer-events-none"></div>
+      <!-- Architectural Decorations -->
+      <!-- Scale Bar (Bottom Left) -->
+      <div class="absolute bottom-6 left-10 flex items-end gap-0.5 opacity-20 pointer-events-none">
+        <div class="w-8 h-1 bg-navy"></div>
+        <div class="w-8 h-1 bg-slate-300"></div>
+        <div class="w-8 h-1 bg-navy"></div>
+        <span class="text-[8px] font-mono ml-2 text-navy">1:50</span>
+      </div>
+
+      <!-- Dimension Line Accent (Top Left) -->
+      <div class="absolute top-10 left-10 pointer-events-none opacity-20">
+        <div class="w-12 h-px bg-navy"></div>
+        <div class="h-12 w-px bg-navy"></div>
+        <div class="absolute -top-1 -left-1 w-2 h-2 border border-navy rotate-45"></div>
+      </div>
+
+      <!-- Corner Tick Markers -->
+      <div class="absolute top-0 left-0 w-8 h-8 border-l-2 border-t-2 border-gold/10 rounded-tl-3xl"></div>
+      <div class="absolute bottom-0 right-0 w-8 h-8 border-r-2 border-b-2 border-gold/10 rounded-br-3xl"></div>
       
       <div class="relative text-center pt-8">
         
-        <!-- Elegant Badge -->
-        <div class="inline-flex items-center gap-2 bg-gradient-to-r from-gold/10 to-gold/5 px-5 py-2 rounded-full border border-gold/20 mb-8">
+        <!-- Elegant Category Badge -->
+        <div class="inline-flex items-center gap-2 bg-slate-900 text-white px-5 py-2 rounded-full mb-10 shadow-xl shadow-slate-900/20">
           <Sparkles class="w-4 h-4 text-gold" />
-          <span class="text-sm font-medium text-navy/80 tracking-wide">Transforma Tu Pasión en Profesión</span>
+          <span class="text-[10px] md:text-xs font-bold uppercase tracking-widest">Transforma Espacios en Experiencias</span>
         </div>
 
         <!-- Main Headline -->
-        <h2 class="text-2xl md:text-5xl font-serif font-bold text-navy mb-6 leading-tight">
-          El momento de actuar<br/>
-          <span class="text-transparent bg-clip-text bg-gradient-to-r from-gold via-gold-dark to-gold">es ahora</span>
+        <h2 class="text-2xl md:text-5xl font-serif font-bold text-navy mb-8 leading-[1.2]">
+          Tu carrera como<br/>
+          <span class="italic text-gold">Interiorista 3D</span> comienza hoy
         </h2>
 
-        <!-- Subtitle -->
-        <p class="text-lg text-slate-600 max-w-xl mx-auto mb-10 leading-relaxed">
-          Únete a una comunidad selecta de profesionales que han decidido convertir su creatividad en un negocio exitoso.
+        <!-- Professional Description -->
+        <p class="text-base md:text-lg text-slate-600 max-w-2xl mx-auto mb-12 leading-relaxed">
+          Únete a la nueva generación de diseñadores que dominan la <span class="text-navy font-bold">IA, Metodología BIM y Realismo Extremo</span> para liderar el mercado global.
         </p>
 
-        <!-- Elegant Benefits List -->
-        <div class="flex flex-wrap justify-center gap-x-8 gap-y-3 mb-10 text-sm">
-          <div class="flex items-center gap-2 text-slate-600">
-            <CheckCircle class="w-4 h-4 text-emerald-500" />
-            <span>Certificación Internacional</span>
+        <!-- Feature Grid (Architectural Style) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <div class="flex flex-col items-center gap-2 p-4 rounded-2xl bg-slate-50 border border-slate-100 group hover:border-gold/30 transition-all">
+            <div class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center mb-1 group-hover:scale-110 transition-transform">
+              <CheckCircle class="w-5 h-5 text-emerald-500" />
+            </div>
+            <span class="text-xs font-bold text-navy uppercase tracking-tight">Certificación Int.</span>
           </div>
-          <div class="flex items-center gap-2 text-slate-600">
-            <CheckCircle class="w-4 h-4 text-emerald-500" />
-            <span>Bolsa de Empleo Exclusiva</span>
+          <div class="flex flex-col items-center gap-2 p-4 rounded-2xl bg-slate-50 border border-slate-100 group hover:border-gold/30 transition-all">
+            <div class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center mb-1 group-hover:scale-110 transition-transform">
+              <CheckCircle class="w-5 h-5 text-emerald-500" />
+            </div>
+            <span class="text-xs font-bold text-navy uppercase tracking-tight">Bolsa de Empleo</span>
           </div>
-          <div class="flex items-center gap-2 text-slate-600">
-            <CheckCircle class="w-4 h-4 text-emerald-500" />
-            <span>Financiamiento Flexible</span>
+          <div class="flex flex-col items-center gap-2 p-4 rounded-2xl bg-slate-50 border border-slate-100 group hover:border-gold/30 transition-all">
+            <div class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center mb-1 group-hover:scale-110 transition-transform">
+              <CheckCircle class="w-5 h-5 text-emerald-500" />
+            </div>
+            <span class="text-xs font-bold text-navy uppercase tracking-tight">Financiación 0%</span>
           </div>
         </div>
 
         <!-- Urgency Micro Element -->
-        <div class="inline-flex items-center gap-2 bg-amber-50 text-amber-700 px-4 py-2 rounded-full text-sm mb-8 border border-amber-100">
-          <Clock class="w-4 h-4" />
-          <span class="font-medium">Inscripciones abiertas solo hasta completar grupo</span>
+        <div class="inline-flex items-center gap-3 bg-gold/10 text-gold-dark px-6 py-2.5 rounded-full text-xs md:text-sm mb-10 border border-gold/20 font-bold">
+          <Clock class="w-4 h-4 animate-pulse" />
+          <span>Últimos cupos con Beca de IA Generativa Incluida</span>
         </div>
 
-        <!-- Premium CTA -->
-        <div>
+        <!-- Premium Button -->
+        <div class="flex flex-col items-center gap-4">
           <a 
             href="/checkout" 
             onclick="trackInitiateCheckout()"
-            class="group relative inline-flex items-center gap-2 md:gap-3 bg-gradient-to-r from-navy to-navy-light hover:from-navy-light hover:to-navy text-white font-semibold text-sm md:text-lg px-6 py-3.5 md:px-12 md:py-5 rounded-full shadow-xl shadow-navy/25 hover:shadow-2xl hover:shadow-navy/40 transition-all duration-500 transform hover:scale-[1.02] active:scale-[0.98]"
+            class="group relative inline-flex items-center gap-2 bg-navy hover:bg-slate-800 text-white font-bold text-xs md:text-xl px-6 py-3 md:px-16 md:py-6 rounded-2xl shadow-2xl shadow-navy/20 hover:shadow-navy/40 transition-all duration-300 transform hover:scale-[1.03] active:scale-[0.98]"
           >
-            <span class="whitespace-nowrap">Reservar Mi Lugar Ahora</span>
-            <ArrowRight class="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform flex-shrink-0" />
-            
-            <!-- Shine Effect -->
-            <div class="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
+            <span class="uppercase tracking-widest">Inscribirme Ahora</span>
+            <ArrowRight class="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" />
           </a>
+          <p class="text-slate-400 text-[10px] md:text-xs flex items-center gap-2">
+            🔒 Transacción Encriptada • Acceso Inmediato al Campus
+          </p>
         </div>
-
-        <!-- Subtle Trust Note -->
-        <p class="text-slate-400 text-xs mt-6 flex items-center justify-center gap-2">
-          🔒 Pago 100% seguro • Garantía de satisfacción
-        </p>
 
       </div>
     </div>

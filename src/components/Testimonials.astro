@@ -1,308 +1,383 @@
 ---
-import { Star, Quote, BadgeCheck, Users } from '@lucide/astro';
-
-const testimonials = [
-  {
-    name: "María Fernanda L.",
-    location: "Miami, FL 🇺🇸",
-    initials: "MF",
-    role: "Egresada 2025",
-    text: "Gracias al Curso del Instituto Osbord logré organizar mi primera boda de lujo en menos de 2 meses después de graduarme. La bolsa de empleo fue clave para conseguir mis primeros clientes. ¡Fue la mejor inversión de mi vida!",
-    rating: 5,
-    highlight: "Primera boda en 2 meses"
-  },
-  {
-    name: "Carolina P.",
-    location: "Houston, TX 🇺🇸",
-    initials: "CP",
-    role: "Egresada 2024",
-    text: "Yo empecé sin saber absolutamente nada de eventos y hoy tengo mi propia empresa de wedding planning. Los tutores me guiaron paso a paso. El módulo de Plan de Negocio fue lo que más me ayudó a despegar.",
-    rating: 5,
-    highlight: "Hoy tiene su propia empresa"
-  },
-  {
-    name: "Valentina R.",
-    location: "Los Angeles, CA 🇺🇸",
-    initials: "VR",
-    role: "Egresada 2025",
-    text: "Lo que más me gustó fue la flexibilidad de horarios. Yo trabajaba tiempo completo y pude estudiar en las noches. La certificación con aval americano me abrió puertas que nunca imaginé. Totalmente recomendado.",
-    rating: 5,
-    highlight: "Estudió mientras trabajaba"
-  },
-  {
-    name: "Andrea M.",
-    location: "New York, NY 🇺🇸",
-    initials: "AM",
-    role: "Egresada 2024",
-    text: "El contenido es súper completo. No solo aprendes de bodas sino de todo tipo de eventos corporativos. Eso me permitió diversificar mis servicios y duplicar mis ingresos en 6 meses. El networking con otros alumnos es increíble.",
-    rating: 5,
-    highlight: "Duplicó sus ingresos en 6 meses"
-  },
-  {
-    name: "Gabriela S.",
-    location: "Chicago, IL 🇺🇸",
-    initials: "GS",
-    role: "Egresada 2025",
-    text: "Tenía miedo de invertir en un curso online, pero la calidad del Curso superó todas mis expectativas. Los módulos de IA aplicada a eventos y el de Photoshop me dieron una ventaja competitiva enorme frente a otros planners.",
-    rating: 5,
-    highlight: "Ventaja competitiva con IA"
-  },
-  {
-    name: "Daniela C.",
-    location: "Dallas, TX 🇺🇸",
-    initials: "DC",
-    role: "Egresada 2024",
-    text: "La beca de inglés incluida fue un bonus increíble. Me sirvió muchísimo para atender clientas americanas que no hablan español. Hoy coordino bodas bilingües y cobro el doble que mi competencia local.",
-    rating: 5,
-    highlight: "Bodas bilingües premium"
-  }
-];
+// Testimonials.astro - Carrusel infinito de testimonios del Máster en Interiorismo
+// Copiado directamente del proyecto LANDING INTERIORISMO
 ---
 
-<section class="pt-14 pb-8 relative overflow-hidden" style="background: linear-gradient(to bottom, #e6e6e6, #f8fafc);">
+<section class="py-10 md:py-20 bg-slate-50 overflow-hidden">
   <div class="container mx-auto px-4 max-w-6xl">
-    
+
     <!-- Section Header -->
-    <div class="text-center mb-16">
-      <div class="inline-flex items-center gap-2 bg-gold/10 px-5 py-2 rounded-full border border-gold/20 mb-6">
-        <Users class="w-4 h-4 text-gold" />
-        <span class="text-sm font-medium text-navy/80 tracking-wide">Historias Reales de Éxito</span>
+    <div class="text-center mb-12">
+      <div class="inline-flex items-center gap-2 bg-navy text-white px-5 py-2 rounded-full mb-6 shadow-lg">
+        <span class="text-gold text-base">★★★★★</span>
+        <span class="text-xs font-bold uppercase tracking-widest">Opiniones Reales de Nuestros Egresados</span>
       </div>
-      
-      <h2 class="text-2xl md:text-4xl font-bold font-serif text-navy mb-4">
-        Ellas ya transformaron su vida.<br/>
-        <span class="text-transparent bg-clip-text bg-gradient-to-r from-gold via-gold-dark to-gold">Tú puedes ser la siguiente.</span>
+      <h2 class="text-3xl md:text-5xl font-serif font-bold text-navy mb-4 leading-tight">
+        Lo que dicen quienes ya <span class="italic text-gold">transformaron</span> su carrera
       </h2>
-      
-      <p class="text-slate-600 max-w-xl mx-auto text-lg">
-        Profesionales reales que tomaron la decisión de formarse con nosotros y hoy viven de su pasión.
+      <p class="text-slate-500 text-base md:text-lg max-w-2xl mx-auto">
+        Más de 2,400 diseñadores certificados en Colombia y Latinoamérica avalan la calidad del Máster en Interiorismo de Instituto Osbord.
       </p>
     </div>
 
-    <!-- Social Proof Counter -->
-    <div class="flex flex-wrap justify-center gap-6 md:gap-10 mb-14">
-      <div class="text-center">
-        <p class="text-3xl md:text-4xl font-bold font-serif text-navy">+2,400</p>
-        <p class="text-xs text-slate-500 uppercase tracking-wider font-medium">Egresados</p>
-      </div>
-      <div class="w-px bg-slate-200 hidden md:block"></div>
-      <div class="text-center">
-        <p class="text-3xl md:text-4xl font-bold font-serif text-navy">4.9<span class="text-gold text-lg">★</span></p>
-        <p class="text-xs text-slate-500 uppercase tracking-wider font-medium">Calificación</p>
-      </div>
-      <div class="w-px bg-slate-200 hidden md:block"></div>
-      <div class="text-center">
-        <p class="text-3xl md:text-4xl font-bold font-serif text-navy">15+</p>
-        <p class="text-xs text-slate-500 uppercase tracking-wider font-medium">Países</p>
-      </div>
-    </div>
-
-    <!-- Testimonials Carousel -->
-    <div 
-      x-data="testimonialCarousel()"
-      x-init="startAutoplay()"
-      class="relative"
-    >
-      <!-- Desktop: Grid with fixed height container to avoid layout shift -->
-      <div class="hidden md:grid md:grid-cols-3 gap-6 relative min-h-[340px]">
+    <!-- Carousel Container -->
+    <div
+      x-data="{
+        current: 0,
+        total: 8,
+        visibleCards: 3,
+        transitioning: true,
+        autoplayInterval: null,
         
-        {/* Set 1: Egresadas 1, 2, 3 */}
-        <div 
-          class="col-span-3 grid grid-cols-3 gap-6 transition-all duration-500 absolute inset-0"
-          x-show="currentSet === 0"
-          x-transition:enter="transition ease-out duration-500"
-          x-transition:enter-start="opacity-0 translate-y-2"
-          x-transition:enter-end="opacity-100 translate-y-0"
-          x-transition:leave="transition ease-in duration-300"
-          x-transition:leave-start="opacity-100 translate-y-0"
-          x-transition:leave-end="opacity-0 -translate-y-2"
+        // Touch & Drag state
+        startX: 0,
+        currentX: 0,
+        isDown: false,
+        
+        touchStart(e) {
+          this.startX = e.touches ? e.touches[0].clientX : e.clientX;
+          this.currentX = this.startX;
+          this.isDown = true;
+          clearInterval(this.autoplayInterval);
+        },
+        touchMove(e) {
+          if (!this.isDown) return;
+          this.currentX = e.touches ? e.touches[0].clientX : e.clientX;
+        },
+        touchEnd() {
+          if (!this.isDown) return;
+          this.isDown = false;
+          const diff = this.startX - this.currentX;
+          // Threshold of 50px to trigger slide change
+          if (Math.abs(diff) > 50) {
+            if (diff > 0) {
+              this.next();
+            } else {
+              this.prev();
+            }
+          }
+          this.restartAutoplay();
+        },
+        updateVisible() {
+          this.visibleCards = window.innerWidth >= 1024 ? 3 : 1;
+        },
+        next() {
+          if (this.current >= this.total) return;
+          this.current++;
+          this.checkBoundary();
+        },
+        prev() {
+          if (this.current <= 0) {
+            // Desactiva transición y salta al clon del final
+            this.transitioning = false;
+            this.current = this.total;
+            // Espera un frame y retrocede con transición
+            setTimeout(() => {
+              this.transitioning = true;
+              this.current--;
+            }, 30);
+          } else {
+            this.current--;
+          }
+        },
+        checkBoundary() {
+          if (this.current >= this.total) {
+            setTimeout(() => {
+              this.transitioning = false;
+              this.current = 0;
+              setTimeout(() => {
+                this.transitioning = true;
+              }, 30);
+            }, 500); // Coincide con la duración de la transición (500ms)
+          }
+        },
+        goTo(i) {
+          this.current = i;
+          this.restartAutoplay();
+        },
+        startAutoplay() {
+          this.autoplayInterval = setInterval(() => this.next(), 5000);
+        },
+        restartAutoplay() {
+          clearInterval(this.autoplayInterval);
+          this.startAutoplay();
+        },
+        init() {
+          this.updateVisible();
+          this.startAutoplay();
+        }
+      }"
+      @resize.window="updateVisible()"
+      class="relative select-none"
+    >
+      <!-- Carousel Track Window -->
+      <div 
+        class="relative overflow-hidden w-full px-1 py-4 cursor-grab active:cursor-grabbing"
+        @touchstart="touchStart($event)"
+        @touchmove="touchMove($event)"
+        @touchend="touchEnd()"
+        @mousedown="touchStart($event)"
+        @mousemove="touchMove($event)"
+        @mouseup="touchEnd()"
+        @mouseleave="isDown = false"
+      >
+        <!-- Flex Track -->
+        <div
+          :class="transitioning ? 'transition-transform duration-500 ease-out' : ''"
+          class="flex -mx-3"
+          :style="`transform: translateX(-${current * (100 / visibleCards)}%)`"
         >
-          {testimonials.slice(0, 3).map((t) => (
-            <div class="testimonial-card group bg-white rounded-2xl p-6 border border-slate-100 hover:border-gold/30 hover:shadow-lg hover:shadow-gold/5 transition-all duration-300 relative overflow-hidden flex flex-col h-full justify-between">
-              <div>
-                <div class="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-gold/40 via-gold to-gold/40"></div>
-                <div class="absolute top-4 right-4 opacity-[0.04]"><Quote class="w-14 h-14 text-navy" /></div>
-                <div class="flex gap-0.5 mb-4">
-                  {Array.from({ length: t.rating }).map(() => (
-                    <Star class="w-3.5 h-3.5 text-gold fill-gold" />
-                  ))}
-                </div>
-                <p class="text-slate-600 text-sm leading-relaxed mb-6 relative z-10 italic">"{t.text}"</p>
-              </div>
-              <div>
-                <div class="mb-4">
-                  <span class="inline-block text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-navy text-gold-light">✓ {t.highlight}</span>
-                </div>
-                <div class="flex items-center gap-3 pt-4 border-t border-slate-200/60">
-                  <div class="w-10 h-10 rounded-full bg-navy flex items-center justify-center text-gold font-bold text-sm shrink-0">{t.initials}</div>
-                  <div>
-                    <div class="flex items-center gap-1.5">
-                      <p class="font-bold text-navy text-sm">{t.name}</p>
-                      <BadgeCheck class="w-3.5 h-3.5 text-emerald" />
-                    </div>
-                    <p class="text-[11px] text-slate-400">{t.location} · {t.role}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Set 2: Egresadas 4, 5, 6 */}
-        <div 
-          class="col-span-3 grid grid-cols-3 gap-6 transition-all duration-500 absolute inset-0"
-          x-show="currentSet === 1"
-          x-transition:enter="transition ease-out duration-500"
-          x-transition:enter-start="opacity-0 translate-y-2"
-          x-transition:enter-end="opacity-100 translate-y-0"
-          x-transition:leave="transition ease-in duration-300"
-          x-transition:leave-start="opacity-100 translate-y-0"
-          x-transition:leave-end="opacity-0 -translate-y-2"
-          style="display: none;"
-        >
-          {testimonials.slice(3, 6).map((t) => (
-            <div class="testimonial-card group bg-white rounded-2xl p-6 border border-slate-100 hover:border-gold/30 hover:shadow-lg hover:shadow-gold/5 transition-all duration-300 relative overflow-hidden flex flex-col h-full justify-between">
-              <div>
-                <div class="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-gold/40 via-gold to-gold/40"></div>
-                <div class="absolute top-4 right-4 opacity-[0.04]"><Quote class="w-14 h-14 text-navy" /></div>
-                <div class="flex gap-0.5 mb-4">
-                  {Array.from({ length: t.rating }).map(() => (
-                    <Star class="w-3.5 h-3.5 text-gold fill-gold" />
-                  ))}
-                </div>
-                <p class="text-slate-600 text-sm leading-relaxed mb-6 relative z-10 italic">"{t.text}"</p>
-              </div>
-              <div>
-                <div class="mb-4">
-                  <span class="inline-block text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-navy text-gold-light">✓ {t.highlight}</span>
-                </div>
-                <div class="flex items-center gap-3 pt-4 border-t border-slate-200/60">
-                  <div class="w-10 h-10 rounded-full bg-navy flex items-center justify-center text-gold font-bold text-sm shrink-0">{t.initials}</div>
-                  <div>
-                    <div class="flex items-center gap-1.5">
-                      <p class="font-bold text-navy text-sm">{t.name}</p>
-                      <BadgeCheck class="w-3.5 h-3.5 text-emerald" />
-                    </div>
-                    <p class="text-[11px] text-slate-400">{t.location} · {t.role}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-      </div>
-
-      <!-- Mobile: Carousel stacked using CSS Grid to allow smooth transitions without layout shifts -->
-      <div class="md:hidden grid grid-cols-1 grid-rows-1 w-full">
-        {testimonials.map((t, i) => (
-          <div 
-            class="testimonial-card bg-white rounded-2xl p-6 border border-slate-100 overflow-hidden flex flex-col justify-between transition-all duration-300 col-start-1 row-start-1"
-            x-show={`currentMobile === ${i}`}
-            x-transition:enter="transition ease-out duration-400"
-            x-transition:enter-start="opacity-0 translate-x-4"
-            x-transition:enter-end="opacity-100 translate-x-0"
-            x-transition:leave="transition ease-in duration-300"
-            x-transition:leave-start="opacity-100 translate-x-0"
-            x-transition:leave-end="opacity-0 -translate-x-4"
-            style={i > 0 ? "display: none;" : ""}
-          >
-            <div>
-              <div class="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-gold/40 via-gold to-gold/40"></div>
-              <div class="absolute top-4 right-4 opacity-[0.04]"><Quote class="w-12 h-12 text-navy" /></div>
-              <div class="flex gap-0.5 mb-3">
-                {Array.from({ length: t.rating }).map(() => (
-                  <Star class="w-3.5 h-3.5 text-gold fill-gold" />
-                ))}
-              </div>
-              <p class="text-slate-600 text-sm leading-relaxed mb-4 relative z-10 italic">"{t.text}"</p>
-            </div>
-            <div>
-              <div class="mb-4">
-                <span class="inline-block text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-navy text-gold-light">✓ {t.highlight}</span>
-              </div>
-              <div class="flex items-center gap-3 pt-4 border-t border-slate-200/60">
-                <div class="w-10 h-10 rounded-full bg-navy flex items-center justify-center text-gold font-bold text-sm shrink-0">{t.initials}</div>
+          <!-- Card 1 -->
+          <div class="shrink-0 w-full lg:w-1/3 px-3 flex">
+            <div class="bg-white rounded-2xl p-6 shadow-md border border-slate-100 hover:shadow-xl hover:border-gold/30 transition-all duration-300 flex flex-col w-full min-h-[280px]">
+              <div class="flex items-center gap-1 mb-3 text-gold text-sm">★★★★★</div>
+              <blockquote class="text-slate-600 text-xs md:text-sm leading-relaxed mb-5 flex-grow">
+                "Este máster cambió completamente mi perspectiva. En apenas dos meses ya tenía clientes reales y estaba diseñando espacios en 3D que parecían de revista. El aval americano me abrió puertas que yo nunca imaginé."
+              </blockquote>
+              <div class="flex items-center gap-3 border-t border-slate-100 pt-4 mt-auto">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-gold to-amber-600 flex items-center justify-center text-white font-bold text-sm shrink-0">V</div>
                 <div>
-                  <div class="flex items-center gap-1.5">
-                    <p class="font-bold text-navy text-sm">{t.name}</p>
-                    <BadgeCheck class="w-3.5 h-3.5 text-emerald" />
-                  </div>
-                  <p class="text-[11px] text-slate-400">{t.location} · {t.role}</p>
+                  <p class="font-bold text-navy text-xs md:text-sm leading-none mb-0.5">Valentina Rodríguez</p>
+                  <p class="text-[10px] text-slate-400">Diseñadora de Interiores · Miami, EE.UU.</p>
                 </div>
               </div>
             </div>
           </div>
-        ))}
+
+          <!-- Card 2 -->
+          <div class="shrink-0 w-full lg:w-1/3 px-3 flex">
+            <div class="bg-white rounded-2xl p-6 shadow-md border border-slate-100 hover:shadow-xl hover:border-gold/30 transition-all duration-300 flex flex-col w-full min-h-[280px]">
+              <div class="flex items-center gap-1 mb-3 text-gold text-sm">★★★★★</div>
+              <blockquote class="text-slate-600 text-xs md:text-sm leading-relaxed mb-5 flex-grow">
+                "No creía que podía aprender interiorismo 3D tan rápido. Los tutores te acompañan en todo momento y los módulos son muy claros. Hoy trabajo como freelancer y ya recuperé la inversión con mi primer proyecto."
+              </blockquote>
+              <div class="flex items-center gap-3 border-t border-slate-100 pt-4 mt-auto">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center text-white font-bold text-sm shrink-0">C</div>
+                <div>
+                  <p class="font-bold text-navy text-xs md:text-sm leading-none mb-0.5">Carlos Medina</p>
+                  <p class="text-[10px] text-slate-400">Freelancer en Decoración · Ciudad de México, México</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="shrink-0 w-full lg:w-1/3 px-3 flex">
+            <div class="bg-white rounded-2xl p-6 shadow-md border border-slate-100 hover:shadow-xl hover:border-gold/30 transition-all duration-300 flex flex-col w-full min-h-[280px]">
+              <div class="flex items-center gap-1 mb-3 text-gold text-sm">★★★★★</div>
+              <blockquote class="text-slate-600 text-xs md:text-sm leading-relaxed mb-5 flex-grow">
+                "El contenido del programa es realmente profesional. Aprendí SketchUp, render y conceptos de diseño que me pusieron al nivel de interioristas con años de experiencia. Lo recomiendo sin dudarlo."
+              </blockquote>
+              <div class="flex items-center gap-3 border-t border-slate-100 pt-4 mt-auto">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white font-bold text-sm shrink-0">L</div>
+                <div>
+                  <p class="font-bold text-navy text-xs md:text-sm leading-none mb-0.5">Luisana Parrales</p>
+                  <p class="text-[10px] text-slate-400">Interiorista Profesional · Bogotá, Colombia</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="shrink-0 w-full lg:w-1/3 px-3 flex">
+            <div class="bg-white rounded-2xl p-6 shadow-md border border-slate-100 hover:shadow-xl hover:border-gold/30 transition-all duration-300 flex flex-col w-full min-h-[280px]">
+              <div class="flex items-center gap-1 mb-3 text-gold text-sm">★★★★★</div>
+              <blockquote class="text-slate-600 text-xs md:text-sm leading-relaxed mb-5 flex-grow">
+                "Llevo años admirando el trabajo de interioristas de Miami y Nueva York, y ahora yo hago lo mismo desde Quito. El aval de EE.UU. le da mucho peso al certificado. Mis clientes lo valoran muchísimo."
+              </blockquote>
+              <div class="flex items-center gap-3 border-t border-slate-100 pt-4 mt-auto">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center text-white font-bold text-sm shrink-0">A</div>
+                <div>
+                  <p class="font-bold text-navy text-xs md:text-sm leading-none mb-0.5">Andreína Flores</p>
+                  <p class="text-[10px] text-slate-400">Decoradora de Espacios · Quito, Ecuador</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 5 -->
+          <div class="shrink-0 w-full lg:w-1/3 px-3 flex">
+            <div class="bg-white rounded-2xl p-6 shadow-md border border-slate-100 hover:shadow-xl hover:border-gold/30 transition-all duration-300 flex flex-col w-full min-h-[280px]">
+              <div class="flex items-center gap-1 mb-3 text-gold text-sm">★★★★★</div>
+              <blockquote class="text-slate-600 text-xs md:text-sm leading-relaxed mb-5 flex-grow">
+                "Lo que más me gustó fue poder estudiar a mi propio ritmo sin perder clases. Soy mamá y trabajaba al mismo tiempo, y aun así pude completar el máster. Los tutores responden rapidísimo."
+              </blockquote>
+              <div class="flex items-center gap-3 border-t border-slate-100 pt-4 mt-auto">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-rose-400 to-pink-600 flex items-center justify-center text-white font-bold text-sm shrink-0">M</div>
+                <div>
+                  <p class="font-bold text-navy text-xs md:text-sm leading-none mb-0.5">María Alejandra Suárez</p>
+                  <p class="text-[10px] text-slate-400">Madre y Emprendedora · Mérida, Venezuela</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 6 -->
+          <div class="shrink-0 w-full lg:w-1/3 px-3 flex">
+            <div class="bg-white rounded-2xl p-6 shadow-md border border-slate-100 hover:shadow-xl hover:border-gold/30 transition-all duration-300 flex flex-col w-full min-h-[280px]">
+              <div class="flex items-center gap-1 mb-3 text-gold text-sm">★★★★★</div>
+              <blockquote class="text-slate-600 text-xs md:text-sm leading-relaxed mb-5 flex-grow">
+                "Venía de estudiar arquitectura pero nunca había manejado renders de alto nivel. Osbord me enseñó a usar herramientas de IA para diseño y ahora ofrezco servicios que antes solo podían grandes estudios. Vale cada centavo."
+              </blockquote>
+              <div class="flex items-center gap-3 border-t border-slate-100 pt-4 mt-auto">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-slate-600 to-slate-800 flex items-center justify-center text-white font-bold text-sm shrink-0">J</div>
+                <div>
+                  <p class="font-bold text-navy text-xs md:text-sm leading-none mb-0.5">Jesús Quintero</p>
+                  <p class="text-[10px] text-slate-400">Arquitecto & Renderista 3D · Caracas, Venezuela</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 7 -->
+          <div class="shrink-0 w-full lg:w-1/3 px-3 flex">
+            <div class="bg-white rounded-2xl p-6 shadow-md border border-slate-100 hover:shadow-xl hover:border-gold/30 transition-all duration-300 flex flex-col w-full min-h-[280px]">
+              <div class="flex items-center gap-1 mb-3 text-gold text-sm">★★★★★</div>
+              <blockquote class="text-slate-600 text-xs md:text-sm leading-relaxed mb-5 flex-grow">
+                "Gracias a la bolsa de empleo de Osbord, tengo un trabajo en una firma de diseño a las 3 semanas de graduarme. El certificado con aval americano fue clave en mi entrevista. No esperaba resultados tan rápidos."
+              </blockquote>
+              <div class="flex items-center gap-3 border-t border-slate-100 pt-4 mt-auto">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-sky-600 flex items-center justify-center text-white font-bold text-sm shrink-0">G</div>
+                <div>
+                  <p class="font-bold text-navy text-xs md:text-sm leading-none mb-0.5">Gabriela Montoya</p>
+                  <p class="text-[10px] text-slate-400">Diseñadora en Firma Corporativa · Valencia, Venezuela</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 8 -->
+          <div class="shrink-0 w-full lg:w-1/3 px-3 flex">
+            <div class="bg-white rounded-2xl p-6 shadow-md border border-slate-100 hover:shadow-xl hover:border-gold/30 transition-all duration-300 flex flex-col w-full min-h-[280px]">
+              <div class="flex items-center gap-1 mb-3 text-gold text-sm">★★★★★</div>
+              <blockquote class="text-slate-600 text-xs md:text-sm leading-relaxed mb-5 flex-grow">
+                "Empecé sin saber absolutamente nada de diseño de interiores. Hoy, después del máster, tengo mi propio estudio de decoración y trabajo con clientes en Venezuela y España. Osbord realmente cambia vidas. 100% recomendado."
+              </blockquote>
+              <div class="flex items-center gap-3 border-t border-slate-100 pt-4 mt-auto">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-amber-600 flex items-center justify-center text-white font-bold text-sm shrink-0">D</div>
+                <div>
+                  <p class="font-bold text-navy text-xs md:text-sm leading-none mb-0.5">Diana Hernández</p>
+                  <p class="text-[10px] text-slate-400">Fundadora de Estudio Propio · Maracay, Venezuela</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ================= CLONES PARA EL BUCLE INFINITO ================= -->
+          <!-- Clone 1 (Valentina) -->
+          <div class="shrink-0 w-full lg:w-1/3 px-3 flex">
+            <div class="bg-white rounded-2xl p-6 shadow-md border border-slate-100 hover:shadow-xl hover:border-gold/30 transition-all duration-300 flex flex-col w-full min-h-[280px]">
+              <div class="flex items-center gap-1 mb-3 text-gold text-sm">★★★★★</div>
+              <blockquote class="text-slate-600 text-xs md:text-sm leading-relaxed mb-5 flex-grow">
+                "Este máster cambió completamente mi perspectiva. En apenas dos meses ya tenía clientes reales y estaba diseñando espacios en 3D que parecían de revista. El aval americano me abrió puertas que yo nunca imaginé."
+              </blockquote>
+              <div class="flex items-center gap-3 border-t border-slate-100 pt-4 mt-auto">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-gold to-amber-600 flex items-center justify-center text-white font-bold text-sm shrink-0">V</div>
+                <div>
+                  <p class="font-bold text-navy text-xs md:text-sm leading-none mb-0.5">Valentina Rodríguez</p>
+                  <p class="text-[10px] text-slate-400">Diseñadora de Interiores · Miami, EE.UU.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Clone 2 (Carlos) -->
+          <div class="shrink-0 w-full lg:w-1/3 px-3 flex">
+            <div class="bg-white rounded-2xl p-6 shadow-md border border-slate-100 hover:shadow-xl hover:border-gold/30 transition-all duration-300 flex flex-col w-full min-h-[280px]">
+              <div class="flex items-center gap-1 mb-3 text-gold text-sm">★★★★★</div>
+              <blockquote class="text-slate-600 text-xs md:text-sm leading-relaxed mb-5 flex-grow">
+                "No creía que podía aprender interiorismo 3D tan rápido. Los tutores te acompañan en todo momento y los módulos son muy claros. Hoy trabajo como freelancer y ya recuperé la inversión con mi primer proyecto."
+              </blockquote>
+              <div class="flex items-center gap-3 border-t border-slate-100 pt-4 mt-auto">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center text-white font-bold text-sm shrink-0">C</div>
+                <div>
+                  <p class="font-bold text-navy text-xs md:text-sm leading-none mb-0.5">Carlos Medina</p>
+                  <p class="text-[10px] text-slate-400">Freelancer en Decoración · Ciudad de México, México</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Clone 3 (Luisana) -->
+          <div class="shrink-0 w-full lg:w-1/3 px-3 flex">
+            <div class="bg-white rounded-2xl p-6 shadow-md border border-slate-100 hover:shadow-xl hover:border-gold/30 transition-all duration-300 flex flex-col w-full min-h-[280px]">
+              <div class="flex items-center gap-1 mb-3 text-gold text-sm">★★★★★</div>
+              <blockquote class="text-slate-600 text-xs md:text-sm leading-relaxed mb-5 flex-grow">
+                "El contenido del programa es realmente profesional. Aprendí SketchUp, render y conceptos de diseño que me pusieron al nivel de interioristas con años de experiencia. Lo recomiendo sin dudarlo."
+              </blockquote>
+              <div class="flex items-center gap-3 border-t border-slate-100 pt-4 mt-auto">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white font-bold text-sm shrink-0">L</div>
+                <div>
+                  <p class="font-bold text-navy text-xs md:text-sm leading-none mb-0.5">Luisana Parrales</p>
+                  <p class="text-[10px] text-slate-400">Interiorista Profesional · Bogotá, Colombia</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <!-- Navigation Dots -->
-      <div class="flex justify-center gap-2 mt-8">
-        <!-- Desktop dots (2 sets) -->
-        <template x-for="i in 2">
-          <button 
-            @click="goToSet(i - 1)"
-            class="hidden md:block w-2.5 h-2.5 rounded-full transition-all duration-300"
-            :class="currentSet === (i - 1) ? 'bg-gold w-8' : 'bg-slate-300 hover:bg-slate-400'"
-            :aria-label="`Ver testimonios grupo ${i}`"
-          ></button>
-        </template>
-        <!-- Mobile dots (6 individual) -->
-        <template x-for="i in 6">
-          <button 
-            @click="goToMobile(i - 1)"
-            class="md:hidden w-2 h-2 rounded-full transition-all duration-300"
-            :class="currentMobile === (i - 1) ? 'bg-gold w-6' : 'bg-slate-300 hover:bg-slate-400'"
-            :aria-label="`Ver testimonio ${i}`"
-          ></button>
-        </template>
+      <!-- Controls -->
+      <div class="flex items-center justify-center gap-6 mt-6">
+        <!-- Prev Button -->
+        <button
+          @click="prev(); restartAutoplay();"
+          class="w-8 h-8 md:w-11 md:h-11 rounded-full bg-white border border-slate-200 shadow-sm hover:bg-navy hover:text-white hover:border-navy transition-all duration-200 flex items-center justify-center text-navy shrink-0"
+          aria-label="Anterior testimonio"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 md:w-5 md:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+
+        <!-- Dot indicators -->
+        <div class="flex items-center gap-2">
+          <template x-for="i in total" :key="i">
+            <button
+              @click="goTo(i - 1)"
+              :class="(current % total) === i - 1 ? 'bg-gold w-6 h-2.5' : 'bg-slate-300 w-2.5 h-2.5'"
+              class="rounded-full transition-all duration-300"
+              :aria-label="`Ir al testimonio ${i}`"
+            ></button>
+          </template>
+        </div>
+
+        <!-- Next Button -->
+        <button
+          @click="next(); restartAutoplay();"
+          class="w-8 h-8 md:w-11 md:h-11 rounded-full bg-white border border-slate-200 shadow-sm hover:bg-navy hover:text-white hover:border-navy transition-all duration-200 flex items-center justify-center text-navy shrink-0"
+          aria-label="Siguiente testimonio"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 md:w-5 md:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Bottom Social Proof Bar -->
+    <div class="mt-14 flex flex-wrap justify-center gap-8 text-center">
+      <div class="flex flex-col items-center gap-1">
+        <span class="text-3xl font-bold text-navy font-serif">+2,400</span>
+        <span class="text-xs uppercase tracking-wider text-slate-500">Egresados Certificados</span>
+      </div>
+      <div class="w-px h-12 bg-slate-200 hidden md:block self-center"></div>
+      <div class="flex flex-col items-center gap-1">
+        <span class="text-3xl font-bold text-navy font-serif">4.9<span class="text-gold text-lg">★</span></span>
+        <span class="text-xs uppercase tracking-wider text-slate-500">Calificación Promedio</span>
+      </div>
+      <div class="w-px h-12 bg-slate-200 hidden md:block self-center"></div>
+      <div class="flex flex-col items-center gap-1">
+        <span class="text-3xl font-bold text-navy font-serif">97%</span>
+        <span class="text-xs uppercase tracking-wider text-slate-500">Tasa de Satisfacción</span>
+      </div>
+      <div class="w-px h-12 bg-slate-200 hidden md:block self-center"></div>
+      <div class="flex flex-col items-center gap-1">
+        <span class="text-3xl font-bold text-navy font-serif">12</span>
+        <span class="text-xs uppercase tracking-wider text-slate-500">Países Representados</span>
       </div>
     </div>
 
-    <!-- CTA after testimonials -->
-    <div class="mt-14 text-center">
-      <a 
-        href="/checkout" 
-        onclick="trackInitiateCheckout()"
-        class="inline-flex items-center gap-2 bg-navy hover:bg-navy-light text-white font-bold py-3.5 px-8 md:py-4 md:px-10 rounded-xl shadow-lg hover:shadow-xl transition-all text-sm md:text-base"
-      >
-        ¡Quiero ser la próxima historia de éxito!
-      </a>
-      <p class="text-xs text-slate-400 mt-3">Únete a +2,400 egresados exitosos</p>
-    </div>
   </div>
 </section>
-
-<script>
-  document.addEventListener('alpine:init', () => {
-    Alpine.data('testimonialCarousel', () => ({
-      currentSet: 0,
-      currentMobile: 0,
-      interval: null,
-
-      startAutoplay() {
-        this.interval = setInterval(() => {
-          // Desktop
-          this.currentSet = this.currentSet === 0 ? 1 : 0;
-          // Mobile
-          this.currentMobile = (this.currentMobile + 1) % 6;
-        }, 7000);
-      },
-
-      goToSet(index: number) {
-        this.currentSet = index;
-        this.resetAutoplay();
-      },
-
-      goToMobile(index: number) {
-        this.currentMobile = index;
-        this.resetAutoplay();
-      },
-
-      resetAutoplay() {
-        clearInterval(this.interval);
-        this.startAutoplay();
-      }
-    }));
-  });
-</script>

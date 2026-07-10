@@ -11,8 +11,8 @@ import { User, Phone } from '@lucide/astro';
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width" />
-  <meta name="description" content="Descarga gratis la Plantilla Automatizada y el Checklist Profesional para Wedding Planners — Instituto Osbord" />
-  <title>Herramientas Gratuitas para Wedding Planners | Instituto Osbord</title>
+  <meta name="description" content="Descarga gratis la Plantilla Automatizada y el Checklist Profesional para Diseñadores de Interiores — Instituto Osbord" />
+  <title>Herramientas Gratuitas para Diseñadores de Interiores | Instituto Osbord</title>
   <link rel="icon" type="image/webp" href="/images/logofaviconosbord.webp" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -30,6 +30,9 @@ import { User, Phone } from '@lucide/astro';
     'https://connect.facebook.net/en_US/fbevents.js');
     fbq('init', '1523091419179735');
     fbq('track', 'PageView');
+
+    // Generar event_id global para el lead
+    window.leadEventId = "lead_" + Date.now() + "_" + Math.random().toString(36).slice(2, 8);
   </script>
   <noscript><img height="1" width="1" style="display:none"
     src="https://www.facebook.com/tr?id=1523091419179735&ev=PageView&noscript=1"
@@ -224,8 +227,8 @@ import { User, Phone } from '@lucide/astro';
           <!-- Header -->
           <div class="text-center space-y-5">
             <span class="badge"><span style="font-size:1rem;">🎁</span> Recurso Gratuito Exclusivo</span>
-            <h1 class="font-serif">Descarga la Plantilla Automatizada y el Checklist Profesional para Wedding Planners</h1>
-            <p class="subtitle">Optimiza tus tiempos, cotiza con precisión y gestiona cada detalle de tus eventos sin margen de error. Recibe tus herramientas directamente en tu WhatsApp.</p>
+            <h1 class="font-serif">Descarga la Plantilla Automatizada y el Checklist Profesional para Diseñadores de Interiores</h1>
+            <p class="subtitle">Optimiza tus tiempos, cotiza con precisión y gestiona cada detalle de tus proyectos de diseño sin margen de error. Recibe tus herramientas directamente en tu WhatsApp.</p>
           </div>
 
           <div class="section-divider"></div>
@@ -242,11 +245,24 @@ import { User, Phone } from '@lucide/astro';
               async handleSubmit() {
                 if (!this.isFormValid || this.sending) return;
                 this.sending = true;
+                // Meta Pixel Client Lead Event with same event_id
+                try {
+                  if (window.fbq) {
+                    fbq('track', 'Lead', {
+                      content_name: 'Lead Master Interiorismo Colombia',
+                      content_category: 'Lead',
+                      value: 0.00,
+                      currency: 'USD'
+                    }, { eventID: window.leadEventId });
+                  }
+                } catch(err) { console.warn('FB Pixel Lead Error', err); }
+
                 const payload = JSON.stringify({
                   nombre: this.nombreUsuario.trim(),
                   telefono: this.whatsappUsuario.trim(),
                   email: 'Lead_WhatsApp@noemail.com',
-                  origen: 'weddingcol_lead',
+                  origen: 'intcol_lead',
+                  event_id: window.leadEventId,
                   page_url: window.location.href,
                   user_agent: navigator.userAgent
                 });
