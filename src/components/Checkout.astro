@@ -24,8 +24,8 @@ import FAQ from './FAQ.astro';
             plan: 'full', 
             prices: {
               'full': 'price_1TnnfNHAnHuL4gEXiMy1ov4Y',
-              'finance1': 'price_1TnnfzHAnHuL4gEXL70iEW1L',
-              'finance2': 'price_1TnngdHAnHuL4gEXgPn1x4Up'
+              'finance1': 'price_1Tu0WEHAnHuL4gEXHNtG8yCc',
+              'finance2': 'price_1Tu0XGHAnHuL4gEXrN7cPpxc'
             },
             get total() { 
               if(this.plan === 'full') return 147.00;
@@ -46,7 +46,7 @@ import FAQ from './FAQ.astro';
                   fbq('track', 'InitiateCheckout', {
                     value: this.total,
                     currency: 'USD',
-                    content_name: 'Inscripción Máster en Interiorismo',
+                    content_name: 'Inscripción Diplomado Internacional en Interiorismo',
                     content_category: 'Educación',
                     content_ids: [this.plan]
                   });
@@ -148,7 +148,7 @@ import FAQ from './FAQ.astro';
             <h3 class="text-sm font-bold text-slate-500 uppercase tracking-wide mb-2">Resumen del Pedido</h3>
             <div class="flex justify-between items-center mb-2">
               <div>
-                <p class="font-medium text-navy">Máster en Interiorismo, Diseño y Decoración de Interiores 3D</p>
+                <p class="font-medium text-navy">Diplomado Internacional en Interiorismo, Diseño y Decoración de Interiores 3D</p>
                 <p class="text-xs text-slate-400" x-text="planName">Pago Único</p>
               </div>
               <div class="text-right">
@@ -199,7 +199,7 @@ import FAQ from './FAQ.astro';
 
           <!-- Problems with payment support section -->
           <div class="mt-8 pt-6 border-t border-slate-100">
-            <div class="bg-blue-50 rounded-lg p-4 flex items-center justify-between group cursor-pointer hover:bg-blue-100 transition-colors" onclick="window.open('https://wa.me/13072923715?text=Hola%2C%20tengo%20problemas%20para%20realizar%20el%20pago%20en%20el%20%2AM%C3%81STER%20EN%20INTERIORISMO%20Y%20DISE%C3%91O%203D%20PARA%20COLOMBIA%2A', '_blank')">
+            <div class="bg-blue-50 rounded-lg p-4 flex items-center justify-between group cursor-pointer hover:bg-blue-100 transition-colors" onclick="window.open('https://wa.me/13072923715?text=Hola%2C%20tengo%20problemas%20para%20realizar%20el%20pago%20en%20el%20%2ADIPLOMADO%20INTERNACIONAL%20EN%20INTERIORISMO%20Y%20DISE%C3%91O%203D%20PARA%20COLOMBIA%2A', '_blank')">
               <div class="flex items-center gap-3">
                 <div class="bg-white p-2 rounded-full text-blue-600 shadow-sm border border-blue-100 group-hover:scale-110 transition-transform">
                    <HelpCircle class="w-5 h-5" />

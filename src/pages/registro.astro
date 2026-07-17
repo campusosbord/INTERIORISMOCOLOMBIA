@@ -26,7 +26,7 @@ import { CheckCircle, ShieldCheck, User, Mail, FileText, Phone } from '@lucide/a
             </div>
             <h2 class="text-2xl md:text-3xl font-bold font-serif">¡Pago Realizado!</h2>
             <p class="text-slate-300 text-sm max-w-md mx-auto">
-              Tu matrícula para el Máster en Interiorismo, Diseño y Decoración de Interiores 3D ha sido procesada con éxito.
+              Tu matrícula para el Diplomado Internacional en Interiorismo, Diseño y Decoración de Interiores 3D ha sido procesada con éxito.
             </p>
           </div>
         </div>
@@ -97,7 +97,7 @@ import { CheckCircle, ShieldCheck, User, Mail, FileText, Phone } from '@lucide/a
                   console.error('[Google Sheets] Error al registrar datos:', e);
                 }
                 
-                const message = `Hola, acabo de realizar mi pago para el *MÁSTER EN INTERIORISMO Y DISEÑO 3D PARA COLOMBIA* y quiero completar mi registro.\n\n` +
+                const message = `Hola, acabo de realizar mi pago para el *DIPLOMADO INTERNACIONAL EN INTERIORISMO Y DISEÑO 3D PARA COLOMBIA* y quiero completar mi registro.\n\n` +
                                 `*DATOS DEL ESTUDIANTE:*\n` +
                                 `• *Nombre completo:* ${this.nombre.trim()}\n` +
                                 `• *Correo electrónico:* ${this.email.trim()}\n` +
@@ -256,7 +256,7 @@ import { CheckCircle, ShieldCheck, User, Mail, FileText, Phone } from '@lucide/a
           fbq('track', 'Purchase', {
             value: value,
             currency: 'USD',
-            content_name: 'Inscripción Máster en Interiorismo',
+            content_name: 'Inscripción Diplomado Internacional en Interiorismo',
             content_category: 'Educación',
             content_ids: [plan],
             content_type: 'product'
@@ -274,7 +274,7 @@ import { CheckCircle, ShieldCheck, User, Mail, FileText, Phone } from '@lucide/a
             currency: 'USD',
             items: [{
               item_id: `interiorismo_${plan}`,
-              item_name: `Inscripción Máster en Interiorismo (${planFriendlyName})`,
+              item_name: `Inscripción Diplomado Internacional en Interiorismo (${planFriendlyName})`,
               price: value,
               quantity: 1,
               item_category: 'Educación'

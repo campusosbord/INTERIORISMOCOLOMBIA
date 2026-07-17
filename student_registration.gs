@@ -22,7 +22,7 @@ const RUTAS = {
     enviarMeta: true,
     pixel: LLC_PIXEL_ID,
     token: LLC_ACCESS_TOKEN,
-    metaNombre: "Master Wedding Planner USA",
+    metaNombre: "Diplomado Internacional Wedding Planner USA",
     metaCategoria: "Formacion Ejecutiva",
     valorDefecto: 297.00,
     metaEvento: "Purchase"
@@ -33,7 +33,7 @@ const RUTAS = {
     enviarMeta: true,
     pixel: LLC_PIXEL_ID,
     token: LLC_ACCESS_TOKEN,
-    metaNombre: "Master Wedding Planner Colombia",
+    metaNombre: "Diplomado Internacional Wedding Planner Colombia",
     metaCategoria: "Formacion Ejecutiva",
     valorDefecto: 147.00,
     metaEvento: "Purchase"
@@ -44,7 +44,7 @@ const RUTAS = {
     enviarMeta: true,
     pixel: LLC_PIXEL_ID,
     token: LLC_ACCESS_TOKEN,
-    metaNombre: "Lead Master Wedding Planner Colombia",
+    metaNombre: "Lead Diplomado Internacional Wedding Planner Colombia",
     metaCategoria: "Lead",
     valorDefecto: 0.00,
     metaEvento: "Lead"
@@ -55,7 +55,7 @@ const RUTAS = {
     enviarMeta: true,
     pixel: LLC_PIXEL_ID,
     token: LLC_ACCESS_TOKEN,
-    metaNombre: "Master Interiorismo Colombia",
+    metaNombre: "Diplomado Internacional Interiorismo Colombia",
     metaCategoria: "Formacion Ejecutiva",
     valorDefecto: 147.00,
     metaEvento: "Purchase"
@@ -66,7 +66,7 @@ const RUTAS = {
     enviarMeta: true,
     pixel: LLC_PIXEL_ID,
     token: LLC_ACCESS_TOKEN,
-    metaNombre: "Lead Master Interiorismo Colombia",
+    metaNombre: "Lead Diplomado Internacional Interiorismo Colombia",
     metaCategoria: "Lead",
     valorDefecto: 0.00,
     metaEvento: "Lead"
@@ -87,7 +87,7 @@ const RUTAS = {
     enviarMeta: true,
     pixel: VZLA_PIXEL_ID,
     token: VZLA_ACCESS_TOKEN,
-    metaNombre: "Master Wedding Planner VZLA",
+    metaNombre: "Diplomado Internacional Wedding Planner VZLA",
     metaCategoria: "Formacion",
     valorDefecto: 120.00,
     metaEvento: "Purchase"
@@ -98,7 +98,7 @@ const RUTAS = {
     enviarMeta: true,
     pixel: VZLA_PIXEL_ID,
     token: VZLA_ACCESS_TOKEN,
-    metaNombre: "Master Interiorismo 3D VZLA",
+    metaNombre: "Diplomado Internacional Interiorismo 3D VZLA",
     metaCategoria: "Formacion Ejecutiva",
     valorDefecto: 120.00,
     metaEvento: "Purchase"
@@ -109,7 +109,7 @@ const RUTAS = {
     enviarMeta: true,
     pixel: VZLA_PIXEL_ID,
     token: VZLA_ACCESS_TOKEN,
-    metaNombre: "Master Interiorismo 3D VZLA",
+    metaNombre: "Diplomado Internacional Interiorismo 3D VZLA",
     metaCategoria: "Formacion Ejecutiva",
     valorDefecto: 120.00,
     metaEvento: "Purchase"

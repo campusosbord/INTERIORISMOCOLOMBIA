@@ -40,7 +40,7 @@ export const POST: APIRoute = async ({ request }) => {
         cancel_url: `${origin}/checkout`,
       };
     } else if (plan === 'finance1') {
-      // 2 cuotas de $159
+      // Primera cuota de 2 - pago único manual
       sessionConfig = {
         payment_method_types: ['card'],
         ...(email ? { customer_email: email } : {}),
@@ -50,17 +50,12 @@ export const POST: APIRoute = async ({ request }) => {
             quantity: 1,
           },
         ],
-        mode: 'subscription',
-        subscription_data: {
-          metadata: {
-            plan_type: 'financiamiento-2',
-          },
-        },
+        mode: 'payment',
         success_url: `${origin}/registro?session_id={CHECKOUT_SESSION_ID}&plan=finance1`,
         cancel_url: `${origin}/checkout`,
       };
     } else if (plan === 'finance2') {
-      // 3 cuotas de $115
+      // Primera cuota de 3 - pago único manual
       sessionConfig = {
         payment_method_types: ['card'],
         ...(email ? { customer_email: email } : {}),
@@ -70,12 +65,7 @@ export const POST: APIRoute = async ({ request }) => {
             quantity: 1,
           },
         ],
-        mode: 'subscription',
-        subscription_data: {
-          metadata: {
-            plan_type: 'financiamiento-3',
-          },
-        },
+        mode: 'payment',
         success_url: `${origin}/registro?session_id={CHECKOUT_SESSION_ID}&plan=finance2`,
         cancel_url: `${origin}/checkout`,
       };
