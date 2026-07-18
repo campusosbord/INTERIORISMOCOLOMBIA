@@ -28,14 +28,17 @@ import FAQ from './FAQ.astro';
               'finance2': 'price_1Tu0XGHAnHuL4gEXrN7cPpxc'
             },
             get total() { 
-              if(this.plan === 'full') return 147.00;
-              if(this.plan === 'finance1') return 79.00;
-              if(this.plan === 'finance2') return 55.00;
+              if(this.plan === 'full') return 473314;
+              if(this.plan === 'finance1') return 254366;
+              if(this.plan === 'finance2') return 177090;
             },
             get planName() {
               if(this.plan === 'full') return 'Pago Único';
               if(this.plan === 'finance1') return '2 Cuotas Mensuales';
               if(this.plan === 'finance2') return '3 Cuotas Mensuales';
+            },
+            formatCOP(val) {
+              return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(val);
             },
             async processFinalStep() {
               this.loading = true;
@@ -45,7 +48,7 @@ import FAQ from './FAQ.astro';
                 if (window.fbq) {
                   fbq('track', 'InitiateCheckout', {
                     value: this.total,
-                    currency: 'USD',
+                    currency: 'COP',
                     content_name: 'Inscripción Diplomado Internacional en Interiorismo',
                     content_category: 'Educación',
                     content_ids: [this.plan]
@@ -96,12 +99,12 @@ import FAQ from './FAQ.astro';
                 </div>
                 <div class="text-right">
                   <p class="font-bold text-emerald-600">
-                    $147 USD
+                    $473.314 COP
                   </p>
                 </div>
               </div>
             </div>
-
+ 
             <!-- Plan Finance 1 -->
             <div class="border rounded-lg p-3 cursor-pointer transition-all mt-3" 
                   @click="plan = 'finance1'"
@@ -113,15 +116,15 @@ import FAQ from './FAQ.astro';
                   </div>
                   <div>
                     <p class="font-bold text-navy text-sm">2 Cuotas Mensuales</p>
-                    <p class="text-xs text-slate-500">2 cuotas de $79 USD</p>
+                    <p class="text-xs text-slate-500">2 cuotas de $254.366 COP</p>
                   </div>
                 </div>
                 <div class="text-right">
-                  <p class="font-bold text-navy">$79 USD <span class="text-[10px] font-normal text-slate-400">/hoy</span></p>
+                  <p class="font-bold text-navy">$254.366 COP <span class="text-[10px] font-normal text-slate-400">/hoy</span></p>
                 </div>
               </div>
             </div>
-
+ 
             <!-- Plan Finance 2 -->
             <div class="border rounded-lg p-3 cursor-pointer transition-all mt-3" 
                   @click="plan = 'finance2'"
@@ -133,16 +136,16 @@ import FAQ from './FAQ.astro';
                   </div>
                   <div>
                     <p class="font-bold text-navy text-sm">3 Cuotas Mensuales</p>
-                    <p class="text-xs text-slate-500">3 cuotas de $55 USD</p>
+                    <p class="text-xs text-slate-500">3 cuotas de $177.090 COP</p>
                   </div>
                 </div>
                 <div class="text-right">
-                  <p class="font-bold text-navy">$55 USD <span class="text-[10px] font-normal text-slate-400">/hoy</span></p>
+                  <p class="font-bold text-navy">$177.090 COP <span class="text-[10px] font-normal text-slate-400">/hoy</span></p>
                 </div>
               </div>
             </div>
           </div>
-
+ 
           <!-- Order Summary -->
           <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
             <h3 class="text-sm font-bold text-slate-500 uppercase tracking-wide mb-2">Resumen del Pedido</h3>
@@ -152,7 +155,7 @@ import FAQ from './FAQ.astro';
                 <p class="text-xs text-slate-400" x-text="planName">Pago Único</p>
               </div>
               <div class="text-right">
-                <p class="font-bold text-navy text-xl" x-text="'$' + total.toFixed(2) + ' USD'"></p>
+                <p class="font-bold text-navy text-xl" x-text="formatCOP(total)"></p>
                 <p class="text-[10px] text-slate-400 font-medium uppercase mt-1">A pagar hoy</p>
               </div>
             </div>

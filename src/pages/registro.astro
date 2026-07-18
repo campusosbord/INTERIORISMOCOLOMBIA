@@ -64,9 +64,9 @@ import { CheckCircle, ShieldCheck, User, Mail, FileText, Phone } from '@lucide/a
                 const params = new URLSearchParams(window.location.search);
                 const planParam = params.get('plan');
                 let planName = 'Plan de Pago (Confirmar con soporte)';
-                if (planParam === 'full') planName = 'Pago Único ($147 USD)';
-                if (planParam === 'finance1') planName = 'Financiamiento de 2 Cuotas ($79 USD)';
-                if (planParam === 'finance2') planName = 'Financiamiento de 3 Cuotas ($55 USD)';
+                if (planParam === 'full') planName = 'Pago Único ($473.314 COP)';
+                if (planParam === 'finance1') planName = 'Financiamiento de 2 Cuotas ($254.366 COP)';
+                if (planParam === 'finance2') planName = 'Financiamiento de 3 Cuotas ($177.090 COP)';
                 
                 // Usar el event_id global generado al cargar la página (misma variable que usa el Pixel)
                 const eventId = window.purchaseEventId;
@@ -233,13 +233,13 @@ import { CheckCircle, ShieldCheck, User, Mail, FileText, Phone } from '@lucide/a
 
       if (plan && sessionId) {
         // 2. Map plan identifier to transaction price
-        let value = 147.00;
+        let value = 473314;
         let planFriendlyName = 'Pago Único';
         if (plan === 'finance1') {
-          value = 79.00;
+          value = 254366;
           planFriendlyName = '2 Cuotas Mensuales';
         } else if (plan === 'finance2') {
-          value = 55.00;
+          value = 177090;
           planFriendlyName = '3 Cuotas Mensuales';
         }
 
@@ -255,7 +255,7 @@ import { CheckCircle, ShieldCheck, User, Mail, FileText, Phone } from '@lucide/a
         if (window.fbq) {
           fbq('track', 'Purchase', {
             value: value,
-            currency: 'USD',
+            currency: 'COP',
             content_name: 'Inscripción Diplomado Internacional en Interiorismo',
             content_category: 'Educación',
             content_ids: [plan],
@@ -271,7 +271,7 @@ import { CheckCircle, ShieldCheck, User, Mail, FileText, Phone } from '@lucide/a
           gtag('event', 'purchase', {
             transaction_id: sessionId,
             value: value,
-            currency: 'USD',
+            currency: 'COP',
             items: [{
               item_id: `interiorismo_${plan}`,
               item_name: `Inscripción Diplomado Internacional en Interiorismo (${planFriendlyName})`,
