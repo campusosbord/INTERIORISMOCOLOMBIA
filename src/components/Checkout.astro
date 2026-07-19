@@ -163,6 +163,18 @@ import FAQ from './FAQ.astro';
 
           <!-- Final Validation and Stripe Button -->
           <div class="pt-8">
+
+            <!-- Garantía de 7 días -->
+            <div class="mb-5 flex items-start gap-3 bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-4">
+              <span class="text-xl shrink-0">🛡️</span>
+              <div>
+                <p class="text-xs font-bold text-emerald-700 uppercase tracking-wider mb-0.5">Garantía de 7 días sin preguntas</p>
+                <p class="text-[11px] text-slate-500 leading-relaxed">
+                  Si en los primeros 7 días sientes que este diplomado no es para ti, te devolvemos el 100% de tu dinero. Sin formularios, sin justificaciones, sin preguntas. Solo escríbenos y listo.
+                </p>
+              </div>
+            </div>
+
             <button 
               @click="processFinalStep()"
               :disabled="loading"

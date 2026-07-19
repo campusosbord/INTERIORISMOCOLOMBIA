@@ -107,6 +107,17 @@ import { Timer, Clock, ShieldCheck } from '@lucide/astro';
           ¡Inscribirme Ahora!
         </a>
 
+        <!-- Garantía de 7 días -->
+        <div class="mt-4 flex items-start gap-3 bg-white/5 border border-emerald-400/20 rounded-xl p-4 text-left">
+          <span class="text-2xl shrink-0">🛡️</span>
+          <div>
+            <p class="text-xs font-bold text-emerald-300 uppercase tracking-wider mb-0.5">Garantía de 7 días sin preguntas</p>
+            <p class="text-[11px] text-slate-300 leading-relaxed">
+              Si en los primeros 7 días sientes que este diplomado no es para ti, te devolvemos el 100% de tu dinero. Sin formularios, sin justificaciones, sin preguntas. Solo escríbenos y listo.
+            </p>
+          </div>
+        </div>
+
         <!-- Payment Methods -->
         <div class="mt-6 pt-6 border-t border-white/10">
           <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-3">Paga seguro con:</p>
@@ -149,17 +160,24 @@ import { Timer, Clock, ShieldCheck } from '@lucide/astro';
         totalSeconds: 48 * 3600,
         
         initTimer() {
-          const storedTime = localStorage.getItem('osbord_interiorismo_colombia_timer');
+          let storedTime = null;
+          try {
+            storedTime = localStorage.getItem('osbord_interiorismo_colombia_timer');
+          } catch(e) { /* private browsing or blocked */ }
+
           const now = new Date().getTime();
           
           if (storedTime) {
-            const { expiry } = JSON.parse(storedTime);
-            const remaining = Math.max(0, Math.floor((expiry - now) / 1000));
-            
-            if (remaining === 0) {
+            try {
+              const parsed = JSON.parse(storedTime);
+              const expiry = parsed && parsed.expiry;
+              if (expiry && typeof expiry === 'number' && expiry > now) {
+                this.totalSeconds = Math.floor((expiry - now) / 1000);
+              } else {
+                this.resetTimer();
+              }
+            } catch(e) {
               this.resetTimer();
-            } else {
-              this.totalSeconds = remaining;
             }
           } else {
             this.resetTimer();
@@ -180,7 +198,9 @@ import { Timer, Clock, ShieldCheck } from '@lucide/astro';
         resetTimer() {
           const now = new Date().getTime();
           const expiry = now + (48 * 3600 * 1000);
-          localStorage.setItem('osbord_interiorismo_colombia_timer', JSON.stringify({ expiry }));
+          try {
+            localStorage.setItem('osbord_interiorismo_colombia_timer', JSON.stringify({ expiry }));
+          } catch(e) { /* private browsing or blocked */ }
           this.totalSeconds = 48 * 3600;
         },
 
