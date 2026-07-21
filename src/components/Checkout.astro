@@ -1,6 +1,7 @@
 ---
 import { ShieldCheck, HelpCircle } from '@lucide/astro';
 import FAQ from './FAQ.astro';
+import { getCOPRate } from '../utils/tasa';
 
 // ── Precios base en USD (fuente de verdad) ──────────────────────────────────
 const PRICES_USD = {
@@ -9,20 +10,8 @@ const PRICES_USD = {
   finance2: 55,  // 1ra cuota de 3
 };
 
-// ── Tipo de cambio USD → COP ─────────────────────────────────────────────────
-let exchangeRate = 4100; // fallback
-let rateDate = '';
-try {
-  const origin = Astro.url.origin;
-  const res = await fetch(`${origin}/api/tipo-cambio`);
-  if (res.ok) {
-    const data = await res.json();
-    exchangeRate = data.rate;
-    rateDate = data.date;
-  }
-} catch (e) {
-  console.warn('[Checkout] Usando tasa de cambio por defecto');
-}
+// ── Tipo de cambio USD -> COP ─────────────────────────────────────────────────
+const exchangeRate = await getCOPRate();
 
 // ── Precios COP exactos (sin redondeo) ──────────────────────────────────────
 const copFull     = Math.floor(PRICES_USD.full     * exchangeRate);
@@ -71,7 +60,7 @@ const alpineData = JSON.stringify({
       <!-- Exchange Rate Banner -->
       <div class="bg-gradient-to-r from-blue-50 to-emerald-50 border-b border-slate-200 px-6 py-2.5 flex flex-wrap items-center justify-center gap-2 text-xs text-slate-500">
         <span class="inline-block w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
-        <span>Precios en <strong class="text-navy">USD</strong> · Equivalencia COP actualizada diariamente</span>
+        <span>Precios en <strong class="text-navy">USD</strong> · Ref. Tasa Oficial Colombia</span>
         <span class="font-mono bg-slate-100 text-slate-600 px-2 py-0.5 rounded border border-slate-200">
           1 USD = {exchangeRate.toLocaleString('es-CO')} COP
         </span>
