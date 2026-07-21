@@ -1,13 +1,63 @@
 ---
-import { ChevronDown, ChevronUp, Copy, CheckCircle, Smartphone, Landmark, ShieldCheck, HelpCircle } from '@lucide/astro';
+import { ShieldCheck, HelpCircle } from '@lucide/astro';
 import FAQ from './FAQ.astro';
+
+// ── Precios base en USD (fuente de verdad) ──────────────────────────────────
+const PRICES_USD = {
+  full: 147,     // Pago único
+  finance1: 79,  // 1ra cuota de 2
+  finance2: 55,  // 1ra cuota de 3
+};
+
+// ── Tipo de cambio USD → COP ─────────────────────────────────────────────────
+let exchangeRate = 4100; // fallback
+let rateDate = '';
+try {
+  const origin = Astro.url.origin;
+  const res = await fetch(`${origin}/api/tipo-cambio`);
+  if (res.ok) {
+    const data = await res.json();
+    exchangeRate = data.rate;
+    rateDate = data.date;
+  }
+} catch (e) {
+  console.warn('[Checkout] Usando tasa de cambio por defecto');
+}
+
+// ── Precios COP exactos (sin redondeo) ──────────────────────────────────────
+const copFull     = Math.floor(PRICES_USD.full     * exchangeRate);
+const copFinance1 = Math.floor(PRICES_USD.finance1 * exchangeRate);
+const copFinance2 = Math.floor(PRICES_USD.finance2 * exchangeRate);
+
+// ── Formatters ───────────────────────────────────────────────────────────────
+const fCOP = (v: number) => new Intl.NumberFormat('es-CO', {
+  style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0
+}).format(v);
+
+const fUSD = (v: number) => new Intl.NumberFormat('en-US', {
+  style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0
+}).format(v);
+
+// JSON para Alpine.js
+const alpineData = JSON.stringify({
+  loading: false,
+  plan: 'full',
+  prices: {
+    full: 'price_1TnnfNHAnHuL4gEXiMy1ov4Y',
+    finance1: 'price_1Tu0WEHAnHuL4gEXHNtG8yCc',
+    finance2: 'price_1Tu0XGHAnHuL4gEXrN7cPpxc',
+  },
+  usdPrices: PRICES_USD,
+  copPrices: { full: copFull, finance1: copFinance1, finance2: copFinance2 },
+});
 ---
 
 <section id="checkout" class="py-20 bg-slate-100">
   <div class="container mx-auto px-4 max-w-2xl">
-    
+
     <div class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
-      <!-- Header of Checkout -->
+
+      <!-- Header -->
       <div class="bg-navy p-6 text-white text-center">
         <h2 class="text-2xl font-bold font-serif">Finalizar Matrícula</h2>
         <div class="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm px-4 py-1.5 rounded-full border border-white/20 mt-2">
@@ -18,227 +68,206 @@ import FAQ from './FAQ.astro';
         </div>
       </div>
 
-      <div class="p-6 md:p-8 space-y-8">
-        <div x-data="{ 
-            loading: false,
-            plan: 'full', 
-            prices: {
-              'full': 'price_1TnnfNHAnHuL4gEXiMy1ov4Y',
-              'finance1': 'price_1Tu0WEHAnHuL4gEXHNtG8yCc',
-              'finance2': 'price_1Tu0XGHAnHuL4gEXrN7cPpxc'
-            },
-            get total() { 
-              if(this.plan === 'full') return 473314;
-              if(this.plan === 'finance1') return 254366;
-              if(this.plan === 'finance2') return 177090;
-            },
-            get planName() {
-              if(this.plan === 'full') return 'Pago Único';
-              if(this.plan === 'finance1') return '2 Cuotas Mensuales';
-              if(this.plan === 'finance2') return '3 Cuotas Mensuales';
-            },
-            formatCOP(val) {
-              return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(val);
-            },
-            async processFinalStep() {
-              this.loading = true;
-              
-              // Meta Pixel Tracking
-              try {
-                if (window.fbq) {
-                  fbq('track', 'InitiateCheckout', {
-                    value: this.total,
-                    currency: 'COP',
-                    content_name: 'Inscripción Diplomado Internacional en Interiorismo',
-                    content_category: 'Educación',
-                    content_ids: [this.plan]
-                  });
-                }
-              } catch(err) { console.warn('FB Pixel Error', err); }
+      <!-- Exchange Rate Banner -->
+      <div class="bg-gradient-to-r from-blue-50 to-emerald-50 border-b border-slate-200 px-6 py-2.5 flex flex-wrap items-center justify-center gap-2 text-xs text-slate-500">
+        <span class="inline-block w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
+        <span>Precios en <strong class="text-navy">USD</strong> · Equivalencia COP actualizada diariamente</span>
+        <span class="font-mono bg-slate-100 text-slate-600 px-2 py-0.5 rounded border border-slate-200">
+          1 USD = {exchangeRate.toLocaleString('es-CO')} COP
+        </span>
+      </div>
 
-              try {
-                const response = await fetch('/api/crear-pago', {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify({ plan: this.plan })
-                });
-                
-                const data = await response.json();
-                if (data.url) {
-                  window.location.href = data.url;
-                } else {
-                  alert('Error al iniciar el pago: ' + (data.error || 'Intente de nuevo.'));
-                  this.loading = false;
-                }
-              } catch (e) {
-                console.error('Error:', e);
-                alert('Error al conectar con la pasarela de pago.');
-                this.loading = false;
-              }
-            }
-        }" class="space-y-8">
-        
-        <div id="payment-section" class="space-y-8">
-          <div>
-            <p class="font-bold text-navy mb-2">1. Elige tu plan de pago:</p>
-            
-            <!-- Plan Full -->
-            <div class="border rounded-lg p-3 cursor-pointer transition-all" 
-                  @click="plan = 'full'"
-                  :class="plan === 'full' ? 'border-emerald-500 bg-emerald-50/30 ring-1 ring-emerald-500' : 'border-slate-200 hover:border-slate-300'">
-              <div class="flex justify-between items-center">
-                <div class="flex items-center gap-3">
-                  <div class="w-4 h-4 rounded-full border border-slate-300 flex items-center justify-center">
-                    <div x-show="plan === 'full'" class="w-2.5 h-2.5 bg-emerald-500 rounded-full"></div>
+      <div class="p-6 md:p-8 space-y-8">
+
+        <!-- Alpine.js payment section -->
+        <div
+          x-data={alpineData}
+          x-init="
+            $watch('plan', () => {});
+            totalUSD = () => usdPrices[plan];
+            totalCOP = () => copPrices[plan];
+            planName = () => {
+              if(plan === 'full') return 'Pago Único';
+              if(plan === 'finance1') return '2 Cuotas Mensuales';
+              return '3 Cuotas Mensuales';
+            };
+          "
+          class="space-y-8"
+        >
+
+          <div id="payment-section" class="space-y-8">
+            <div>
+              <p class="font-bold text-navy mb-2">1. Elige tu plan de pago:</p>
+
+              <!-- Plan Full -->
+              <div
+                class="border rounded-lg p-3 cursor-pointer transition-all"
+                @click="plan = 'full'"
+                :class="plan === 'full' ? 'border-emerald-500 bg-emerald-50/30 ring-1 ring-emerald-500' : 'border-slate-200 hover:border-slate-300'"
+              >
+                <div class="flex justify-between items-center">
+                  <div class="flex items-center gap-3">
+                    <div class="w-4 h-4 rounded-full border border-slate-300 flex items-center justify-center">
+                      <div x-show="plan === 'full'" class="w-2.5 h-2.5 bg-emerald-500 rounded-full"></div>
+                    </div>
+                    <div>
+                      <p class="font-bold text-navy text-sm">Pago Único</p>
+                      <p class="text-xs text-slate-400">Mejor precio · Acceso completo</p>
+                    </div>
                   </div>
-                  <div>
-                    <p class="font-bold text-navy text-sm">Pago Único</p>
+                  <div class="text-right">
+                    <p class="font-bold text-emerald-600 text-base">{fUSD(PRICES_USD.full)}</p>
+                    <p class="text-[10px] text-slate-400">≈ {fCOP(copFull)} COP</p>
                   </div>
                 </div>
-                <div class="text-right">
-                  <p class="font-bold text-emerald-600">
-                    $473.314 COP
+              </div>
+
+              <!-- Plan Finance 1 -->
+              <div
+                class="border rounded-lg p-3 cursor-pointer transition-all mt-3"
+                @click="plan = 'finance1'"
+                :class="plan === 'finance1' ? 'border-emerald-500 bg-emerald-50/30 ring-1 ring-emerald-500' : 'border-slate-200 hover:border-slate-300'"
+              >
+                <div class="flex justify-between items-center">
+                  <div class="flex items-center gap-3">
+                    <div class="w-4 h-4 rounded-full border border-slate-300 flex items-center justify-center">
+                      <div x-show="plan === 'finance1'" class="w-2.5 h-2.5 bg-emerald-500 rounded-full"></div>
+                    </div>
+                    <div>
+                      <p class="font-bold text-navy text-sm">2 Cuotas Mensuales</p>
+                      <p class="text-xs text-slate-500">2 cuotas de {fUSD(PRICES_USD.finance1)} · ≈ {fCOP(copFinance1)} COP</p>
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <p class="font-bold text-navy">{fUSD(PRICES_USD.finance1)} <span class="text-[10px] font-normal text-slate-400">/hoy</span></p>
+                    <p class="text-[10px] text-slate-400">≈ {fCOP(copFinance1)} COP</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Plan Finance 2 -->
+              <div
+                class="border rounded-lg p-3 cursor-pointer transition-all mt-3"
+                @click="plan = 'finance2'"
+                :class="plan === 'finance2' ? 'border-emerald-500 bg-emerald-50/30 ring-1 ring-emerald-500' : 'border-slate-200 hover:border-slate-300'"
+              >
+                <div class="flex justify-between items-center">
+                  <div class="flex items-center gap-3">
+                    <div class="w-4 h-4 rounded-full border border-slate-300 flex items-center justify-center">
+                      <div x-show="plan === 'finance2'" class="w-2.5 h-2.5 bg-emerald-500 rounded-full"></div>
+                    </div>
+                    <div>
+                      <p class="font-bold text-navy text-sm">3 Cuotas Mensuales</p>
+                      <p class="text-xs text-slate-500">3 cuotas de {fUSD(PRICES_USD.finance2)} · ≈ {fCOP(copFinance2)} COP</p>
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <p class="font-bold text-navy">{fUSD(PRICES_USD.finance2)} <span class="text-[10px] font-normal text-slate-400">/hoy</span></p>
+                    <p class="text-[10px] text-slate-400">≈ {fCOP(copFinance2)} COP</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+              <h3 class="text-sm font-bold text-slate-500 uppercase tracking-wide mb-2">Resumen del Pedido</h3>
+              <div class="flex justify-between items-start gap-3">
+                <div class="flex-1">
+                  <p class="font-medium text-navy text-sm">Diplomado Internacional en Interiorismo, Diseño y Decoración de Interiores 3D</p>
+                  <p class="text-xs text-slate-400 mt-0.5" x-text="
+                    plan === 'full' ? 'Pago Único' :
+                    plan === 'finance1' ? '2 Cuotas Mensuales' :
+                    '3 Cuotas Mensuales'
+                  "></p>
+                </div>
+                <div class="text-right shrink-0">
+                  <p class="font-bold text-navy text-xl" x-text="
+                    new Intl.NumberFormat('en-US', {style:'currency',currency:'USD',minimumFractionDigits:0}).format(usdPrices[plan])
+                  "></p>
+                  <p class="text-xs text-slate-400" x-text="
+                    '≈ ' + new Intl.NumberFormat('es-CO', {style:'currency',currency:'COP',minimumFractionDigits:0}).format(copPrices[plan]) + ' COP'
+                  "></p>
+                  <p class="text-[10px] text-slate-400 font-medium uppercase mt-1">A pagar hoy</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Stripe Button -->
+            <div class="pt-8">
+
+              <!-- Garantía 7 días -->
+              <div class="mb-5 flex items-start gap-3 bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-4">
+                <span class="text-xl shrink-0">🛡️</span>
+                <div>
+                  <p class="text-xs font-bold text-emerald-700 uppercase tracking-wider mb-0.5">Garantía de 7 días sin preguntas</p>
+                  <p class="text-[11px] text-slate-500 leading-relaxed">
+                    Si en los primeros 7 días sientes que este diplomado no es para ti, te devolvemos el 100% de tu dinero. Sin formularios, sin justificaciones, sin preguntas. Solo escríbenos y listo.
                   </p>
                 </div>
               </div>
+
+              <button
+                id="btn-inscripcion"
+                @click="
+                  loading = true;
+                  try { if(window.fbq) fbq('track','InitiateCheckout',{value:usdPrices[plan],currency:'USD',content_ids:[plan]}); } catch(e){}
+                  fetch('/api/crear-pago',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({plan})})
+                    .then(r=>r.json())
+                    .then(d=>{ if(d.url){ window.location.href=d.url; } else { alert('Error al iniciar el pago: '+(d.error||'Intente de nuevo.')); loading=false; } })
+                    .catch(e=>{ console.error(e); alert('Error al conectar con la pasarela de pago.'); loading=false; });
+                "
+                :disabled="loading"
+                class="group block w-full bg-navy hover:bg-slate-800 text-white font-bold text-lg py-4 px-6 rounded-xl shadow-lg transition-all text-center relative overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]"
+              >
+                <div x-show="!loading" class="flex items-center justify-center gap-2">
+                  <span>REALIZAR INSCRIPCIÓN</span>
+                </div>
+                <div x-show="loading" class="absolute inset-0 flex items-center justify-center gap-3 bg-slate-800">
+                  <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  <span class="text-sm uppercase tracking-widest font-bold">Redirigiendo a Stripe...</span>
+                </div>
+              </button>
+
+              <p class="text-center text-xs text-slate-400 mt-3 flex items-center justify-center gap-1">
+                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                Pago 100% Seguro Procesado por Stripe
+              </p>
             </div>
- 
-            <!-- Plan Finance 1 -->
-            <div class="border rounded-lg p-3 cursor-pointer transition-all mt-3" 
-                  @click="plan = 'finance1'"
-                  :class="plan === 'finance1' ? 'border-emerald-500 bg-emerald-50/30 ring-1 ring-emerald-500' : 'border-slate-200 hover:border-slate-300'">
-              <div class="flex justify-between items-center">
+
+            <!-- Soporte -->
+            <div class="mt-8 pt-6 border-t border-slate-100">
+              <div
+                class="bg-blue-50 rounded-lg p-4 flex items-center justify-between group cursor-pointer hover:bg-blue-100 transition-colors"
+                onclick="window.open('https://wa.me/13072923715?text=Hola%2C%20tengo%20problemas%20para%20realizar%20el%20pago%20en%20el%20%2ADIPLOMADO%20INTERNACIONAL%20EN%20INTERIORISMO%20Y%20DISE%C3%91O%203D%20PARA%20COLOMBIA%2A', '_blank')"
+              >
                 <div class="flex items-center gap-3">
-                  <div class="w-4 h-4 rounded-full border border-slate-300 flex items-center justify-center">
-                    <div x-show="plan === 'finance1'" class="w-2.5 h-2.5 bg-emerald-500 rounded-full"></div>
+                  <div class="bg-white p-2 rounded-full text-blue-600 shadow-sm border border-blue-100 group-hover:scale-110 transition-transform">
+                    <HelpCircle class="w-5 h-5" />
                   </div>
                   <div>
-                    <p class="font-bold text-navy text-sm">2 Cuotas Mensuales</p>
-                    <p class="text-xs text-slate-500">2 cuotas de $254.366 COP</p>
+                    <p class="text-sm font-bold text-navy">¿Problemas con el pago?</p>
+                    <p class="text-xs text-slate-500">Contactar Soporte de Caja</p>
                   </div>
                 </div>
-                <div class="text-right">
-                  <p class="font-bold text-navy">$254.366 COP <span class="text-[10px] font-normal text-slate-400">/hoy</span></p>
+                <div class="bg-white px-3 py-1 rounded-full text-xs font-bold text-blue-600 shadow-sm border border-blue-100">
+                  Ayuda
                 </div>
               </div>
             </div>
- 
-            <!-- Plan Finance 2 -->
-            <div class="border rounded-lg p-3 cursor-pointer transition-all mt-3" 
-                  @click="plan = 'finance2'"
-                  :class="plan === 'finance2' ? 'border-emerald-500 bg-emerald-50/30 ring-1 ring-emerald-500' : 'border-slate-200 hover:border-slate-300'">
-              <div class="flex justify-between items-center">
-                <div class="flex items-center gap-3">
-                  <div class="w-4 h-4 rounded-full border border-slate-300 flex items-center justify-center">
-                    <div x-show="plan === 'finance2'" class="w-2.5 h-2.5 bg-emerald-500 rounded-full"></div>
-                  </div>
-                  <div>
-                    <p class="font-bold text-navy text-sm">3 Cuotas Mensuales</p>
-                    <p class="text-xs text-slate-500">3 cuotas de $177.090 COP</p>
-                  </div>
-                </div>
-                <div class="text-right">
-                  <p class="font-bold text-navy">$177.090 COP <span class="text-[10px] font-normal text-slate-400">/hoy</span></p>
-                </div>
-              </div>
-            </div>
-          </div>
- 
-          <!-- Order Summary -->
-          <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
-            <h3 class="text-sm font-bold text-slate-500 uppercase tracking-wide mb-2">Resumen del Pedido</h3>
-            <div class="flex justify-between items-center mb-2">
-              <div>
-                <p class="font-medium text-navy">Diplomado Internacional en Interiorismo, Diseño y Decoración de Interiores 3D</p>
-                <p class="text-xs text-slate-400" x-text="planName">Pago Único</p>
-              </div>
-              <div class="text-right">
-                <p class="font-bold text-navy text-xl" x-text="formatCOP(total)"></p>
-                <p class="text-[10px] text-slate-400 font-medium uppercase mt-1">A pagar hoy</p>
-              </div>
-            </div>
-          </div>
 
-          <!-- Final Validation and Stripe Button -->
-          <div class="pt-8">
+          </div><!-- /payment-section -->
 
-            <!-- Garantía de 7 días -->
-            <div class="mb-5 flex items-start gap-3 bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-4">
-              <span class="text-xl shrink-0">🛡️</span>
-              <div>
-                <p class="text-xs font-bold text-emerald-700 uppercase tracking-wider mb-0.5">Garantía de 7 días sin preguntas</p>
-                <p class="text-[11px] text-slate-500 leading-relaxed">
-                  Si en los primeros 7 días sientes que este diplomado no es para ti, te devolvemos el 100% de tu dinero. Sin formularios, sin justificaciones, sin preguntas. Solo escríbenos y listo.
-                </p>
-              </div>
-            </div>
-
-            <button 
-              @click="processFinalStep()"
-              :disabled="loading"
-              class="group block w-full bg-navy hover:bg-slate-800 text-white font-bold text-lg py-4 px-6 rounded-xl shadow-lg transition-all text-center relative overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed disabled:grayscale-[0.5] active:scale-[0.98]"
-            >
-              <!-- Ready State -->
-              <div 
-                x-show="!loading" 
-                x-transition:enter="transition ease-out duration-200"
-                x-transition:enter-start="opacity-0 transform translate-y-1"
-                x-transition:enter-end="opacity-100 transform translate-y-0"
-                class="flex items-center justify-center gap-2"
-              >
-                 <span>REALIZAR INSCRIPCIÓN</span>
-              </div>
-
-              <!-- Loading State -->
-              <div 
-                x-show="loading" 
-                x-transition:enter="transition ease-out duration-300"
-                x-transition:enter-start="opacity-0"
-                x-transition:enter-end="opacity-100"
-                class="absolute inset-0 flex items-center justify-center gap-3 bg-slate-800"
-              >
-                <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                <span class="text-sm uppercase tracking-widest font-bold">Redirigiendo a Stripe...</span>
-              </div>
-            </button>
-            <p class="text-center text-xs text-slate-400 mt-3 flex items-center justify-center gap-1">
-              <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-              Pago 100% Seguro Procesado por Stripe
-            </p>
-          </div>
-
-          <!-- Problems with payment support section -->
-          <div class="mt-8 pt-6 border-t border-slate-100">
-            <div class="bg-blue-50 rounded-lg p-4 flex items-center justify-between group cursor-pointer hover:bg-blue-100 transition-colors" onclick="window.open('https://wa.me/13072923715?text=Hola%2C%20tengo%20problemas%20para%20realizar%20el%20pago%20en%20el%20%2ADIPLOMADO%20INTERNACIONAL%20EN%20INTERIORISMO%20Y%20DISE%C3%91O%203D%20PARA%20COLOMBIA%2A', '_blank')">
-              <div class="flex items-center gap-3">
-                <div class="bg-white p-2 rounded-full text-blue-600 shadow-sm border border-blue-100 group-hover:scale-110 transition-transform">
-                   <HelpCircle class="w-5 h-5" />
-                </div>
-                <div>
-                  <p class="text-sm font-bold text-navy">¿Problemas con el pago?</p>
-                  <p class="text-xs text-slate-500">Contactar Soporte de Caja</p>
-                </div>
-              </div>
-              <div class="bg-white px-3 py-1 rounded-full text-xs font-bold text-blue-600 shadow-sm border border-blue-100">
-                Ayuda
-              </div>
-            </div>
-          </div>
-        </div> <!-- Closing the x-data div -->
+        </div><!-- /x-data -->
 
         <div class="mt-12 px-2">
           <FAQ />
         </div>
+
       </div>
     </div>
   </div>
 </section>
-
-<style>
-  /* Any custom checkout styles if needed */
-</style>
